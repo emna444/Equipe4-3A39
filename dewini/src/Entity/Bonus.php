@@ -13,7 +13,7 @@ class Bonus
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $med = null;
+    private ?int $id = null; // Correction de l'annotation Id
 
     #[ORM\Column]
     private ?int $montant = null;
