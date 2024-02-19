@@ -1,0 +1,65 @@
+ {% extends 'base1.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="text-center">Ajouter un partenaire</h1>
+    </div>
+
+    {# Affichage des éventuelles erreurs du formulaire #}
+    {% if form_errors(f) %}
+        <div class="alert alert-danger">
+            {{ form_errors(f) }}
+        </div>
+    {% endif %}
+        
+    {# Début du formulaire #}
+    {{ form_start(f,{'attr':{'novalidate':'novalidate'}}) }}
+        
+    {# Champ "Nom" du partenaire #}
+    <div class="form-group">
+        {{ form_label(f.nom) }}
+        {{ form_widget(f.nom, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error-message">
+            {{ form_errors(f.nom) }} {# Affiche les erreurs de validation pour le champ "nom" #}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(f.adresse) }}
+        {{ form_widget(f.adresse, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error-message">
+            {{ form_errors(f.adresse) }} {# Affiche les erreurs de validation pour le champ "adresse" #}
+        </div>
+    </div>
+
+ <div class="form-group">
+        {{ form_label(f.contact) }}
+        {{ form_widget(f.contact, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error-message">
+            {{ form_errors(f.contact) }} {# Affiche les erreurs de validation pour le champ "contact" #}
+        </div>
+    </div>
+
+     <div class="form-group">
+        {{ form_label(f.evenement) }}
+        {{ form_widget(f.evenement, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error-message">
+            {{ form_errors(f.evenement) }} {# Affiche les erreurs de validation pour le champ "evenement" #}
+        </div>
+    </div>
+
+     
+
+
+     
+    
+
+    {# Bouton de soumission du formulaire #}
+<div class="btn-container">
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+</div>
+    {# Fin du formulaire #}
+    {{ form_end(f) }}
+</div>
+{% endblock %}

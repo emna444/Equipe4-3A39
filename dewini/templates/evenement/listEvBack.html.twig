@@ -1,0 +1,62 @@
+{% extends 'base1.html.twig' %}
+
+{% block body %}
+ <div class="container">
+        <h1 class="text-center">Gestion des Evénements</h1>
+    </div>
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
+        <!-- Votre code pour le navbar ici -->
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Gestion des événements -->
+    <div class="container mt-5">
+<a href="{{ path('addEV') }}" class="btn btn-primary" style="color: white;">Ajouter</a>
+
+          <table class="table table-striped">
+        <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>NOM</th>
+                    <th>DATE</th>
+                    <th>LIEU</th>
+                    <th>DESCRIPTION</th>
+                    <th>Nom partenaire</th>
+                     <th>Action</th>
+
+                </tr>
+            </thead>
+           <tbody>
+    {% for ev in response %}
+        <tr>
+            <td>{{ ev.id}}</td>
+            <td>{{ ev.nom }} </td>
+            <td>{{ ev.date|date('d/m/Y') }}</td>
+            <td>{{ ev.lieu }} </td>
+            <td>{{ ev.description }}</td>
+            <td>
+               {% for partenaire in ev.partenaires %}
+                {{ partenaire.nom }}<br>
+                 {% endfor %}
+            </td>
+        
+<td>
+<div class="btn-group" role="group">
+    <a href="{{ path('modifierEv', {'id': ev.id}) }}" class="btn btn-primary btn-sm" style="width: 80px;">Modifier</a>
+    <a href="{{ path('deleteEv', {'id': ev.id}) }}" class="btn btn-sm" style="background-color: #E30A40; color: #ffffff; width: 80px;">Supprimer</a>
+</div>
+</td>
+
+        </tr>
+    {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <!-- Votre code pour le footer ici -->
+    </footer>
+{% endblock %}

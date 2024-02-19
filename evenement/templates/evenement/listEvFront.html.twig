@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+        <h1 class="text-center"> Tous les Evénements</h1>
+    </div>
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
+        <!-- Votre code pour le navbar ici -->
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- événements -->
+    <div class="container mt-5">
+          <table class="table table-striped">
+        <thead class="thead-dark">
+                <tr>
+                    
+                    <th>NOM</th>
+                    <th>DATE</th>
+                    <th>LIEU</th>
+                    <th>DESCRIPTION</th>
+                    <th>Nom partenaire</th>
+                      <th></th>
+                    
+                </tr>
+            </thead>
+           <tbody>
+    {% for ev in response %}
+       <tr>
+           
+            <td>{{ ev.nom }} </td>
+            <td>{{ ev.date|date('d/m/Y') }}</td>
+            <td>{{ ev.lieu }} </td>
+            <td>{{ ev.description }}</td>
+            <td>
+               {% for partenaire in ev.partenaires %}
+                {{ partenaire.nom }}<br>
+                 {% endfor %}
+            </td>
+        
+            <<td>
+                    <a href="#" class="btn btn-danger">Participer</a>
+                </td>
+        </tr>
+               {% endfor %}
+
+             </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <!-- Votre code pour le footer ici -->
+    </footer>
+{% endblock %}

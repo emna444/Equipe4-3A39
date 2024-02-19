@@ -1,0 +1,42 @@
+{% extends 'base1.html.twig' %}
+
+{% block body %}
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
+        <!-- Votre code pour le navbar ici -->
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Tableau de produits -->
+    <div class="container mt-5">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Commande</th>
+                    <th>Produit</th>
+                    <th>Image</th>
+                    <th>Quantite</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in response %}
+                    <tr>
+                        <td>{{ p.commande.id }}</td> {# Accéder à l'ID de la commande #}
+                        <td>{{ p.produit.nom }}</td> {# Accéder au nom du produit via la relation produit #}
+                        <td>
+                            <img src="{{ asset('uploads/' ~ p.produit.ImageName) }}" class="img-thumbnail" style="max-width: 150px; max-height: 150px;" alt="{{ p.produit.nom }}">
+                        </td> {# Afficher l'image du produit #}
+                        <td>{{ p.quantite }}</td> {# Accéder à la quantité #}
+                        <td>{{ p.prix }} TND</td> {# Accéder au prix #}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <!-- Votre code pour le footer ici -->
+    </footer>
+{% endblock %}
