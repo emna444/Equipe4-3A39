@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Hide overflow to prevent scrollbar */
+    position: relative; /* Make the body a positioning context for absolute positioning */
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8); /* Ajoutez une légère opacité pour que le texte soit plus lisible */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 400px;
+    text-align: center;
+    margin-top: -50px; /* Décalage vers le haut */
+    animation: slideIn 0.5s ease-in-out;
+    position: relative; /* Ensure it's positioned relative to body */
+    z-index: 1; /* Ensure it's above the animated background */
+}
+
+@keyframes animateBackground {
+    0% {
+        background-position: 0 0; /* Start position */
+    }
+    50% {
+        background-position: 0 10px; /* Middle position */
+    }
+    100% {
+        background-position: 0 0; /* End position */
+    }
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: -10px; /* Adjust to stay within the bounds of the image */
+    left: -10px; /* Adjust to stay within the bounds of the image */
+    width: calc(100% + 20px); /* Adjust to stay within the bounds of the image */
+    height: calc(100% + 20px); /* Adjust to stay within the bounds of the image */
+    background-image: url('/medicine-blue-background-flat-lay.jpg');
+    background-size: cover;
+    background-position: center;
+    animation: animateBackground 3s linear infinite; /* Adjust animation duration and timing */
+    z-index: 0; /* Ensure it's behind other content */
+}
+
+.text-danger {
+    display: none; /* Hide error messages by default */
+    color: green;
+    font-size: 14px;
+    margin-top: 5px;
+    animation: fadeIn 0.5s ease-in-out; /* Add fade-in animation */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.form-group {
+    position: relative; /* Position error messages relative to the form group */
+}
+
+.form-group.error .text-danger {
+    display: block; /* Show error messages when the form group has an error class */
+    position: absolute; /* Position the error messages absolutely */
+    bottom: -20px; /* Adjust the position as needed */
+    left: 0;
+    width: 100%;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    opacity: 0.8;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1 class="mb-1">Register</h1>
+    {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="form-group error">
+        {% for error in registrationForm.cin.vars.errors %}
+            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+        {{ form_widget(registrationForm.cin, {'attr': {'class': 'form-control', 'placeholder': 'CIN'}}) }}
+    </div>
+    <div class="form-group error">
+        {% for error in registrationForm.nom.vars.errors %}
+            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+        {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+    </div>
+    <div class="form-group error">
+        {% for error in registrationForm.prenom.vars.errors %}
+            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+        {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
+    </div>
+    <div class="form-group error">
+        {% for error in registrationForm.telephone.vars.errors %}
+            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+        {{ form_widget(registrationForm.telephone, {'attr': {'class': 'form-control', 'placeholder': 'Téléphone'}}) }}
+    </div>
+    <div class="form-group error">
+        {% for error in registrationForm.ville.vars.errors %}
+            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+        {{ form_widget(registrationForm.ville, {'attr': {'class': 'form-control', 'placeholder': 'Ville'}}) }}
+    </div>
+    <div class="form-group error">
+        {% for error in registrationForm.email.vars.errors %}
+            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+    </div>
+    <div class="form-group error">
+        {% for error in registrationForm.plainPassword.vars.errors %}
+            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+        {{ form_widget(registrationForm.plainPassword, {'label': 'Password', 'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
+    </div>
+    <div class="form-group form-check">
+        {{ form_widget(registrationForm.agreeTerms, {'label': 'Agree to terms', 'attr': {'class': 'form-check-input'}}) }}
+        {{ form_label(registrationForm.agreeTerms, 'I agree to the terms', {'label_attr': {'class': 'form-check-label'}}) }}
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+    {{ form_end(registrationForm) }}
+</div>
+</body>
+</html>

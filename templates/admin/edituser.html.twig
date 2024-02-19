@@ -1,0 +1,53 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Modifier un utilisateur{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="mb-4">Modifier un utilisateur</h1>
+                {{ form_start(userForm) }}
+
+                <div class="form-group">
+                    {{ form_label(userForm.email) }}
+                    {{ form_widget(userForm.email, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(userForm.cin) }}
+                    {{ form_widget(userForm.cin, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(userForm.nom) }}
+                    {{ form_widget(userForm.nom, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(userForm.prenom) }}
+                    {{ form_widget(userForm.prenom, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(userForm.telephone) }}
+                    {{ form_widget(userForm.telephone, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(userForm.ville) }}
+                    {{ form_widget(userForm.ville, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(userForm.roles) }}
+                    {{ form_widget(userForm.roles) }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Valider</button>
+
+                {{ form_end(userForm, {'button_class': 'd-none'}) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

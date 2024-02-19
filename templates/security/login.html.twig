@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to Dewini</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Hide overflow to prevent scrollbar */
+    position: relative; /* Make the body a positioning context for absolute positioning */
+}
+
+.login-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 400px;
+    text-align: center;
+    animation: slideIn 0.5s ease-in-out;
+    position: relative; /* Ensure it's positioned relative to body */
+    z-index: 1; /* Ensure it's above the animated background */
+}
+
+@keyframes animateBackground {
+    0% {
+        background-position: 0 0; /* Start position */
+    }
+    50% {
+        background-position: 0 10px; /* Middle position */
+    }
+    100% {
+        background-position: 0 0; /* End position */
+    }
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: -10px; /* Adjust to stay within the bounds of the image */
+    left: -10px; /* Adjust to stay within the bounds of the image */
+    width: calc(100% + 20px); /* Adjust to stay within the bounds of the image */
+    height: calc(100% + 20px); /* Adjust to stay within the bounds of the image */
+    background-image: url('/medicine-blue-background-flat-lay.jpg');
+    background-size: cover;
+    background-position: center;
+    animation: animateBackground 2.5s linear infinite; /* Adjust animation duration and timing */
+    z-index: 0; /* Ensure it's behind other content */
+}
+
+/* Style for the welcome message */
+.welcome-message {
+    color: #0d47a1; /* Darker blue color */
+    font-size: 36px; /* Larger font size */
+    margin-bottom: 20px; /* Add space below the message */
+}
+
+.dewini-text {
+    color: #b71c1c; /* Dark red color */
+    font-weight: bold; /* Make the text bold */
+}
+
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-secondary {
+    display: inline-block;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    opacity: 0.8;
+}
+
+
+
+
+#toggle {
+    position: absolute;
+    top: 48%;
+    transform: translateY(-50%);
+    right: 47px;
+    background: url(close.png);
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+#toggle.hide {
+    background: url(view.png);
+    background-size: cover;
+}
+</style>
+</head>
+<body>
+<div class="login-container">
+<h1 class="mb-4 welcome-message">Welcome to <span class="dewini-text">Dewini</span></h1>
+    <form method="post">
+        {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+        <div class="form-group">
+            <input type="email" value="{{ last_username }}" name="email" class="form-control" placeholder="Email" required autofocus>
+        </div>
+       <div class="inputBox">
+        <div class="form-group">
+            <input type="password" name="password" class="form-control" placeholder="Mot de passe" required id="password">
+ 
+        <div id="toggle"></div>
+        </div>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
+    </form>
+    <hr>
+    <p>Pas encore de compte ? <a href="{{ path('app_register') }}">Créer un compte</a></p>
+</div>
+<script>
+let password = document.getElementById('password');
+let togglePassword = document.getElementById('toggle');
+
+function showHide() {
+    if (password.type === 'password') {
+        password.setAttribute('type', 'text');
+        togglePassword.classList.add('hide');
+    } else {
+        password.setAttribute('type', 'password');
+        togglePassword.classList.remove('hide');
+    }
+}
+
+togglePassword.addEventListener('click', showHide);
+</script>
+
+</body>
+</html>
