@@ -1,61 +1,54 @@
 {% extends 'base1.html.twig' %}
 
 {% block body %}
-
-    <div class="container">
-        <h1 class="text-center">Ajouter un événements</h1>
-    </div>
+<div class="container">
+    <h1 class="text-center">Modifier un événement</h1>
 
     {# Affichage des éventuelles erreurs du formulaire #}
     {% if form_errors(f) %}
-        <div class="alert alert-danger">
-            {{ form_errors(f) }}
-        </div>
+    <div class="alert alert-danger">
+        {{ form_errors(f) }}
+    </div>
     {% endif %}
-        
+
     {# Début du formulaire #}
-    {{ form_start(f,{'attr':{'novalidate':'novalidate'}}) }}
-        
-    {# Champ "Nom" du evenement #}
+    {{ form_start(f, {'attr': {'novalidate': 'novalidate'}}) }}
+
+    {# Champ "Nom" de l'événement #}
     <div class="form-group">
-        {{ form_label(f.nom) }}
-        {{ form_widget(f.nom, {'attr': {'class': 'form-control'}}) }}
-        <div class="form-error-message">
-            {{ form_errors(f.nom) }} {# Affiche les erreurs de validation pour le champ "nom" #}
-        </div>
+        {{ form_widget(f.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom événement'}}) }}
+        {% for error in f.nom.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group">
-        {{ form_label(f.date) }}
-        {{ form_widget(f.date, {'attr': {'class': 'form-control'}}) }}
-        <div class="form-error-message">
-            {{ form_errors(f.date) }} {# Affiche les erreurs de validation pour le champ "date" #}
-        </div>
+        {{ form_widget(f.date, {'attr': {'class': 'form-control', 'placeholder': 'Date'}}) }}
+        {% for error in f.date.vars.errors %}
+         <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
     </div>
 
- <div class="form-group">
-        {{ form_label(f.lieu) }}
-        {{ form_widget(f.lieu, {'attr': {'class': 'form-control'}}) }}
-        <div class="form-error-message">
-            {{ form_errors(f.lieu) }} {# Affiche les erreurs de validation pour le champ "lieu" #}
-        </div>
+    <div class="form-group">
+        {{ form_widget(f.lieu, {'attr': {'class': 'form-control', 'placeholder': 'Lieu'}}) }}
+         {% for error in f.lieu.vars.errors %}
+           <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+          {% endfor %}
     </div>
 
-     <div class="form-group">
+    <div class="form-group">
         {{ form_label(f.description) }}
         {{ form_widget(f.description, {'attr': {'class': 'form-control'}}) }}
-        <div class="form-error-message">
-            {{ form_errors(f.description) }} {# Affiche les erreurs de validation pour le champ "description" #}
-        </div>
+        {% for error in f.description.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
     </div>
 
-     
-    
+    {# Bouton de soumission du formulaire #}
+    <div class="btn-container">
+        <button type="submit" class="btn btn-primary">Modifier</button>
+    </div>
 
-     {# Bouton de soumission du formulaire #}
-<div class="btn-container">
-    <button type="submit" class="btn btn-primary">Modifier</button>
-</div>
     {# Fin du formulaire #}
     {{ form_end(f) }}
 </div>

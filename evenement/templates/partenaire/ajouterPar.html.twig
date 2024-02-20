@@ -18,35 +18,33 @@
         
     {# Champ "Nom" du partenaire #}
     <div class="form-group">
-        {{ form_label(f.nom) }}
-        {{ form_widget(f.nom, {'attr': {'class': 'form-control'}}) }}
-        <div class="form-error-message">
-            {{ form_errors(f.nom) }} {# Affiche les erreurs de validation pour le champ "nom" #}
-        </div>
+        {{ form_widget(f.nom, {'attr': {'class': 'form-control' ,'placeholder': 'Nom' }}) }}
+        {% for error in f.nom.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group">
-        {{ form_label(f.adresse) }}
-        {{ form_widget(f.adresse, {'attr': {'class': 'form-control'}}) }}
-        <div class="form-error-message">
-            {{ form_errors(f.adresse) }} {# Affiche les erreurs de validation pour le champ "adresse" #}
-        </div>
+
+        {{ form_widget(f.adresse, {'attr': {'class': 'form-control','placeholder': 'Adresse'}}) }}
+        {% for error in f.adresse.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
     </div>
 
  <div class="form-group">
-        {{ form_label(f.contact) }}
-        {{ form_widget(f.contact, {'attr': {'class': 'form-control'}}) }}
-        <div class="form-error-message">
-            {{ form_errors(f.contact) }} {# Affiche les erreurs de validation pour le champ "contact" #}
-        </div>
+      
+        {{ form_widget(f.contact, {'attr': {'class': 'form-control' ,'placeholder': 'Contact'}}) }}
+        {% for error in f.contact.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
     </div>
 
      <div class="form-group">
-        {{ form_label(f.evenement) }}
-        {{ form_widget(f.evenement, {'attr': {'class': 'form-control'}}) }}
-        <div class="form-error-message">
-            {{ form_errors(f.evenement) }} {# Affiche les erreurs de validation pour le champ "evenement" #}
-        </div>
+        {{ form_widget(f.evenement, {'attr': {'class': 'form-control' , 'placeholder': 'Evènement'}}) }}
+        {% for error in f.evenement.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
     </div>
 
      

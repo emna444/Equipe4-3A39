@@ -21,6 +21,15 @@ class EvenementController extends AbstractController
 {
 
 
+/**
+     * @Route("/404", name="not_found")
+     */
+    public function notFound(): Response
+    {
+        return $this->render('404.html.twig');
+    }
+
+
  #hedhi taffichi liste evenement back
 #[Route('/fetchEVback', name: 'fetchEVback')]
 
@@ -39,17 +48,16 @@ return $this->render('evenement/listEvFront.html.twig', [
 'response' => $result,
 ]);
 }
-
+#ajouter evenement 
 #[Route('/addEV',name:'addEV')]
     public function addEV(ManagerRegistry $mr,EvenementRepository $rep,Request $req):Response
     {   
         $ev=new Evenement();//1 instance    update 
         // avant cree cmd form 
         $form=$this->createForm(EvenementType::class,$ev); //methode dynamique : buiding entre 2 params 
-       // $form->add('save_me',SubmitType::class); //
         $form->handleRequest($req); // methode definie recuperer les informations 
-        if($form->isSubmitted()&& $form->isValid()) {
-            
+        // validation d'aprés validation d'entité 
+        if($form->isSubmitted()&& $form->isValid()) {  
         $em=$mr->getManager();//3 persist+flush
         $em->persist($ev);
         $em->flush();
@@ -81,8 +89,22 @@ return $this->render('evenement/modifierEv.html.twig', [
     #[Route('/deleteEv/{id}', name: 'deleteEv')]
     public function deleteEv(Evenement $ev, ManagerRegistry $mr): Response
     {
-    $em = $mr->getManager();
-    $em->remove($ev);
-    $em->flush();
-    return $this->redirectToRoute('fetchEVback');}
+        $em = $mr->getManager();
+    
+        // Récupérer les partenaires associés à l'événement
+        $partenaires = $ev->getPartenaires();
+    
+        // Supprimer chaque partenaire associé
+        foreach ($partenaires as $partenaire) {
+            $em->remove($partenaire);
+        }
+    
+        // Supprimer l'événement lui-même
+        $em->remove($ev);
+    
+        // Appliquer les suppressions
+        $em->flush();
+    
+        return $this->redirectToRoute('fetchEVback');
+    }
 }

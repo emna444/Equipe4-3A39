@@ -1,3 +1,10 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+# config/routes.yaml
+# Redirection des routes non définies vers la page 404
+catch_all:
+    path: '{any}'
+    controller: App\Controller\EvenementController::notFound
+    requirements:
+        any: .+
