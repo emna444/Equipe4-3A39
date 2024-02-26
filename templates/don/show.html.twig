@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4">Liste des Dons</h1>
+
+        {% for don in response %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ don.title }}</h5>
+                <p class="card-text"><strong>Adresse:</strong> {{ don.adresse }}</p>
+                {% if don.image is not null %}
+                <img src="{{ asset('uploads/images/' ~ don.image) }}" class="img-fluid rounded" alt="Donation Image" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <p class="card-text">{{ don.description }}</p>
+                <a href="{{ path('detail', {'id': don.id}) }}" class="btn btn-primary">Afficher les détails</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

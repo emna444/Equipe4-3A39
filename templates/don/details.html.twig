@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4">Details du Dons</h1>
+        {% for donns in p %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>{{ donns.title }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><strong>Adresse:</strong> {{ donns.adresse }}</p>
+                    {% if donns.image is not null %}
+                        <img src="{{ asset('uploads/images/' ~ donns.image) }}" class="img-fluid mb-3" alt="Donation Image">
+                    {% endif %}
+                    <p class="card-text">{{ donns.description }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2>Liste des commentaires</h2>
+        {% for comment in comments %}
+            {% if comment.parent == null %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="meta">{{ comment.createdAt|ago }}</div>
+                        <p>{{ comment.content|raw }}</p>
+                        <p><a href="#ajout-commentaire" data-reply data-id="{{ comment.id }}" class="btn btn-primary">Répondre</a></p>
+                        {% for reply in comment.replies %}
+                            <div class="card mb-2 ml-3">
+                                <div class="card-body">
+                                    <div class="meta">{{ reply.createdAt|ago }}</div>
+                                    <p>{{ reply.content|raw }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8" id="ajout-commentaire">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Ajouter un commentaire</h2>
+            </div>
+            <div class="card-body">
+                {{ form_start(f) }}
+                    <div class="form-group">
+                        <label for="comment_content">Contenu du commentaire</label>
+                        {{ form_widget(f.content, {'attr': {'class': 'form-control', 'placeholder': 'Votre commentaire'}}) }}
+                    </div>
+                    <input type="hidden" name="parentid" id="comments_parentid" value="">
+                    <input type="hidden" name="_token" value="{{ csrf_token('comment') }}">
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                {{ form_end(f) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script>
+       window.onload = () => {
+    document.querySelectorAll("[data-reply]").forEach(element => {
+        element.addEventListener("click", function(){
+            document.querySelector("#comments_parentid").value = this.dataset.id;
+        });
+    });
+};
+    </script>
+{% endblock %}
