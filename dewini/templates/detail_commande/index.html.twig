@@ -1,0 +1,45 @@
+{% extends 'base1.html.twig' %}
+
+{% block body %}
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
+        <!-- Votre code pour le navbar ici -->
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Tableau de produits -->
+    <div class="container mt-5">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Commande</th>
+                    <th>Produit</th>
+                    <th>Image</th>
+                    <th>Quantite</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in response %}
+                    <tr class="table-row" style="transition: background-color 0.3s;">
+                        <td><span style="color: blue;">{{ p.commande.id }}</span></td>                   
+                        <td>{{ p.produit.nom }}</td> {# Accéder au nom du produit via la relation produit #}
+                        <td>
+                            <img src="{{ asset('uploads/' ~ p.produit.ImageName) }}" class="img-thumbnail" style="max-width: 150px; max-height: 150px;" alt="{{ p.produit.nom }}">
+                        </td> {# Afficher l'image du produit #}
+                        <td>{{ p.quantite }}</td> {# Accéder à la quantité #}
+                        <td><span class="text-danger">{{ p.prix }} TND</span></td> {# Accéder au prix et afficher en rouge #}
+                    </tr>
+                  
+                {% endfor %}
+                   <a href="{{ path('telecharger') }}" class="btn" style="color: blue;">
+    <i class="fas fa-download"></i> Télécharger le bilan 
+</a>
+
+            </tbody>
+        </table>
+    </div>
+
+
+   
+{% endblock %}

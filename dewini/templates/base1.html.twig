@@ -1,16 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <head>
-    {% block css%}
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DEWINI BACK</title>
-  <link rel="shortcut icon" type="image/png" href="logo.png" style="width: 100px; height: auto"/>
+  <link rel="shortcut icon" type="image/png" href="../logo.png" style="width: 100px; height: auto" />
   <link rel="stylesheet" href="../assets/css/styles.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
+   {% block css%}
  <style>
     .form-error-message {
     color: red;
@@ -26,31 +28,37 @@
     justify-content: center; /* Pour centrer horizontalement */
     align-items: center; /* Pour centrer verticalement */
     height: 10vh; /* Réglage de la hauteur du conteneur (100% de la hauteur de la fenêtre) */
+} .table-row:hover {
+            background-color: #e6f2ff; /* Couleur de fond au survol */
+        }
+.custom-card {
+    background-color: #e6f2ff; /* Couleur de fond personnalisée */
+    border: 1px solid #ced4da; /* Bordure personnalisée */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
 }
+
 </style>
     {% endblock %}
 
 
 <body>
-  <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
     <!-- Sidebar Start -->
     <aside class="left-sidebar">
-      <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
           <a href="{{ path('back') }}" class="text-nowrap logo-img">
-            <img src="{{ asset('logo.png') }}" alt="Logo DEWINI" style="width: 100px; height: auto;">
+            <img src="{{ asset('logo.png') }}" alt="Logo DEWINI" style="width: 125px; height: auto;">
           </a>
-           <div class="col">
-            <h1 class="m-0 text-primary">DEWINI</h1>
-        </div>
+          <div class="col">
+            <!-- <h1 class="m-0 text-primary">DEWINI</h1>-->
+          </div>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-8"></i>
           </div>
         </div>
-        <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
           <ul id="sidebarnav">
             <li class="nav-small-cap">
@@ -67,35 +75,36 @@
             </li>
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-             <span class="hide-menu">UI COMPONENTS</span>
+              <span class="hide-menu">Menu</span>
             </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
-                <span>
-                  <i class="ti ti-article"></i>
-                </span>
-                <span class="hide-menu">Buttons</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-             <a class="sidebar-link"  href="{{ path('fetchback') }}" aria-expanded="false" >
-    <span>
+            <!-- Modification du lien Produits pour ajouter une liste déroulante -->
+           <li class="sidebar-item dropdown">
+  <a class="sidebar-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="false">
+     <span style="font-size: 1.2rem;">
       <i class="bi bi-cart3"></i> <!-- Utilisation de l'icône de panier d'achat de Bootstrap Icons -->
     </span>
     <span class="hide-menu">Produits</span>
   </a>
+  <div class="dropdown-menu">
+    <a class="dropdown-item sidebar-link" href="{{ path('fetchback') }}">
+      <span>
+        <i class="bi bi-view-list"></i> <!-- Utilisation de l'icône de liste de Bootstrap Icons -->
+      </span>
+      <span class="hide-menu">Afficher Produits</span>
+    </a>
+    <a class="dropdown-item sidebar-link" href="{{ path('add') }}">
+      <span>
+        <i class="bi bi-plus-circle"></i> <!-- Utilisation de l'icône de plus de Bootstrap Icons -->
+      </span>
+      <span class="hide-menu">Ajouter Produit</span>
+    </a>
+  </div>
 </li>
- </li>
-            <li class="sidebar-item">
-             <a class="sidebar-link"  href="{{ path('add') }}" aria-expanded="false" >
-    <span>
-<i class="bi bi-plus-circle"></i>    </span>
-    <span class="hide-menu">Ajouter Produit</span>
-  </a>
-</li>
+            <!-- Fin de la modification -->
             <li class="sidebar-item">
               <a class="sidebar-link" href="{{ path('affichercommande') }}" aria-expanded="false">
-              <span>
+                <span>
                   <i class="ti ti-file-description"></i>
                 </span>
                 <span class="hide-menu">Commandes</span>
@@ -114,15 +123,23 @@
                 <span>
                   <i class="ti ti-file-description"></i>
                 </span>
-                <span class="hide-menu">Forms</span>
+                <span class="hide-menu">Dons</span>
               </a>
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
                 <span>
-                  <i class="ti ti-typography"></i>
+<i class="fas fa-exclamation-circle"></i>
                 </span>
-                <span class="hide-menu">Typography</span>
+                <span class="hide-menu">Reclamations</span>
+              </a>
+            </li>
+             <li class="sidebar-item">
+              <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
+     <span style="font-size: 1.1rem;">
+<i class="bi bi-calendar-event"></i>
+                </span>
+                <span class="hide-menu">Evenements</span>
               </a>
             </li>
             <li class="nav-small-cap">
@@ -168,13 +185,10 @@
           </ul>
           <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
             <div class="d-flex">
-              
             </div>
           </div>
         </nav>
-        <!-- End Sidebar navigation -->
       </div>
-      <!-- End Sidebar scroll-->
     </aside>
     <!--  Sidebar End -->
     <!--  Main wrapper -->

@@ -17,32 +17,26 @@ class Produit
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-/**
- * @Assert\NotBlank(message="Le champ nom ne doit pas être vide.")
- * @Assert\Length(
- *      min = 5,
- *      minMessage = "Le champ doit contenir au moins 5 lettres."
- * )
- * @Assert\Regex(
- *     pattern="/^[a-zA-Z0-9\s]+$/",
- *     message="Le champ ne doit pas contenir de caractères spéciaux."
- * )
- */
+    #[Assert\NotBlank(message: "Le champ nom ne doit pas être vide.")]
+    #[Assert\Length(
+        min: 5,
+        minMessage: "Le champ doit contenir au moins 5 lettres."
+    )]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-Z0-9\s]+$/",
+        message: "Le champ ne doit pas contenir de caractères spéciaux."
+    )]
     private ?string $nom = null;
 
    
 
-    #[ORM\Column]
-        /**
-     * @Assert\NotBlank(message="Le champ prix ne doit pas être vide.")
-     * @Assert\Range(
-     *      min = 0,
-     *      max = 1000,
-     *      notInRangeMessage = "Le prix doit être compris entre {{ min }} et {{ max }}.",
-     * )
-     */
 
+    #[ORM\Column]
+    #[Assert\NotBlank(message: "Le champ prix ne doit pas être vide.")]
+    #[Assert\Type(type: "float", message: "this value is not valid.")]
+    #[Assert\Range(min: 0, max: 1000, notInRangeMessage: "Le prix doit être compris entre {{ min }} et {{ max }}.")]
     private ?float $prix = null;
+    
 
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -52,9 +46,13 @@ class Produit
     #[ORM\OneToMany(targetEntity: DetailCommande::class, mappedBy: 'Produit')]
     private Collection $detailcommande;
 
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'Produit')]
+    private Collection $avis;
+
     public function __construct()
     {
         $this->detailcommande = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,7 +65,7 @@ class Produit
         return $this->nom;
     }
 
-    public function setNom(string $nom): static
+    public function setNom(?string $nom): static
     {
         $this->nom = $nom;
 
@@ -81,7 +79,7 @@ class Produit
         return $this->prix;
     }
 
-    public function setPrix(float $prix): static
+    public function setPrix(?float $prix): static
     {
         $this->prix = $prix;
 
@@ -126,6 +124,36 @@ class Produit
             // set the owning side to null (unless already changed)
             if ($detailcommande->getProduit() === $this) {
                 $detailcommande->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): static
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis->add($avi);
+            $avi->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): static
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getProduit() === $this) {
+                $avi->setProduit(null);
             }
         }
 

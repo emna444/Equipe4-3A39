@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des détails de commande</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Ajoutez d'autres liens CSS ici si nécessaire -->
+    <style>
+        /* Vos styles CSS personnalisés ici */
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .logo {
+            max-width: 200px;
+            max-height: 100px;
+            margin-bottom: 20px;
+        }
+        .title {
+            color: #dc3545; /* Rouge */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .datetime {
+            color: #6c757d;
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .table {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .table th, .table td {
+            border-color: #dee2e6;
+        }
+        .total-row {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenu principal -->
+    <div class="container">
+        <!-- Logo -->
+        <img class="logo mx-auto d-block" src="../../public/logo.png" alt="Logo">
+        
+        <!-- Titre -->
+        <h1 class="title">Facture des commandes</h1>
+
+        <!-- Date et heure -->
+        <p class="datetime">{{ "now"|date("d/m/Y H:i:s") }}</p>
+
+        <!-- Tableau de produits -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col"># Commande</th>
+                        <th scope="col">Produit</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Prix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set total = 0 %}
+                    {% for p in response %}
+                        <tr>
+                            <td>{{ p.commande.id }}</td>
+                            <td>{{ p.produit.nom }}</td>
+                            <td>{{ p.quantite }}</td>
+                            <td class="text-danger">{{ p.prix }} TND</td>
+                            {% set total = total + p.prix * p.quantite %}
+                        </tr>
+                    {% endfor %}
+                    <tr class="total-row">
+                        <td colspan="3" class="text-right">Total</td>
+                        <td class="text-danger">{{ total }} TND</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

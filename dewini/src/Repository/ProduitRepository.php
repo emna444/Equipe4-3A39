@@ -20,6 +20,32 @@ class ProduitRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Produit::class);
     }
+    public function findBySearchTerm($searchTerm)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.nom LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findByTri($tri)
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.' . $tri, 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+public function findByPrixRange($prixMin, $prixMax)
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.prix >= :prixMin')
+        ->andWhere('p.prix <= :prixMax')
+        ->setParameter('prixMin', $prixMin)
+        ->setParameter('prixMax', $prixMax)
+        ->getQuery()
+        ->getResult();
+}
 
 //    /**
 //     * @return Produit[] Returns an array of Produit objects

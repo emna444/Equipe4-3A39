@@ -1,0 +1,191 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
+        <!-- Votre code pour le navbar ici -->
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Formulaire de recherche -->
+    <div class="container mt-3">
+        <form action="{{ path('recherche') }}" method="get" class="mb-3">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Rechercher par nom" name="q">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fas fa-search"></i> <!-- icône de recherche -->
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+   <div class="container mt-3 d-flex justify-content-between">
+    <!-- Formulaire de tri -->
+    <form action="{{ path('tri') }}" method="GET" class="form-inline custom-form">
+    <div class="input-group">
+        <select name="tri" id="tri" class="custom-select" style="margin-right: 10px;">
+            <option value="nom">Trier par nom</option>
+            <option value="prix">Trier par prix</option>
+        </select>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-sort"></i> Trier
+            </button>
+        </div>
+    </div>
+</form>
+
+
+    <!-- Choix de la grille -->
+    <div class="btn-group" role="group" aria-label="Choix de la grille">
+        <button type="button" class="btn btn-outline-primary grid-btn" data-cols="2">
+            <i class="fas fa-th-large"></i> 2 par ligne
+        </button>
+        <button type="button" class="btn btn-outline-primary grid-btn" data-cols="3">
+            <i class="fas fa-th"></i> 3 par ligne
+        </button>
+    </div>
+</div>
+
+
+    {# Champs de saisie pour les prix min et max #}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                <label for="prixMin" class="input-group-text"><i class="fas fa-dollar-sign"></i></label>
+                <input type="number" id="prixMin" name="prixMin" min="0" class="form-control custom-input" placeholder="Prix Min">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <label for="prixMax" class="input-group-text"><i class="fas fa-dollar-sign"></i></label>
+                <input type="number" id="prixMax" name="prixMax" min="0" class="form-control custom-input" placeholder="Prix Max">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Grid de produits -->
+   <div class="container mt-5">
+    <div class="row" id="gridProductsRow">
+        {% for p in response %}
+            <div class="col-md-4 mb-4 product-card">
+                <div class="card h-100">
+                    <div class="card h-100 zoom-on-hover">
+                        <img class="card-img-top product-img" src="{{ asset('uploads/' ~ p.ImageName) }}" alt="{{ p.nom }}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ p.nom }}</h5>
+                        <p class="card-text">{{ p.prix }} DT</p>
+                           <a href="{{ path('addpanier', {'id': p.id}) }}" class="btn btn-danger">
+                                <i class="fas fa-shopping-cart"></i> Ajouter au panier
+                            </a>
+<a href="{{ path('produitdetail', {'id': p.id}) }}" class="btn btn-primary">
+    <i class="fas fa-info-circle"></i> <!-- icône d'information -->
+    Voir détails
+</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- Pagination -->
+<div class="container-pagination">
+    {{ knp_pagination_render(response) }}
+</div>
+    <!-- Footer -->
+    <footer>
+        <!-- Votre code pour le footer ici -->
+    </footer>
+
+    <!-- Script JavaScript pour la gestion de la grille -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gridBtns = document.querySelectorAll('.grid-btn');
+
+            gridBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const cols = this.getAttribute('data-cols');
+                    const productCards = document.querySelectorAll('.product-card');
+                    
+                    // Réinitialiser les classes de la grille
+                    productCards.forEach(card => {
+                        card.classList.remove('col-md-4', 'col-md-6');
+                        card.classList.add('col-md-' + (12 / parseInt(cols)));
+                    });
+                });
+            });
+        });
+   </script>
+
+    <script>
+     document.addEventListener('DOMContentLoaded', function() {
+        const prixMinInput = document.getElementById('prixMin');
+        const prixMaxInput = document.getElementById('prixMax');
+
+        prixMinInput.addEventListener('input', filtrerProduits);
+        prixMaxInput.addEventListener('input', filtrerProduits);
+    });
+
+function filtrerProduits() {
+    const prixMinInput = document.getElementById('prixMin');
+    const prixMaxInput = document.getElementById('prixMax');
+    const gridProduitsContainer = document.getElementById('gridProductsRow'); // Modifier l'ID ici
+
+    const prixMin = prixMinInput.value;
+    const prixMax = prixMaxInput.value;
+
+    fetch(`/filtrer-produits-par-prix?prixMin=${prixMin}&prixMax=${prixMax}`)
+        .then(response => response.json())
+        .then(data => {
+            // Efface les produits précédents
+            gridProduitsContainer.innerHTML = '';
+
+            // Ajoute les nouveaux produits filtrés après les produits existants
+            data.forEach(produit => {
+                gridProduitsContainer.innerHTML += `
+                    <div class="col-md-4 mb-4 product-card">
+                        <div class="card h-100">
+                            <div class="card h-100 zoom-on-hover">
+                                <img class="card-img-top product-img" src="uploads/${produit.image}" alt="${produit.nom}">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${produit.nom}</h5>
+                                <p class="card-text">${produit.prix} DT</p>
+                                <a href="/panier/add/${produit.id}" class="btn btn-danger">
+                                    <i class="fas fa-shopping-cart"></i> Ajouter au panier
+                                </a>
+<a href="/show${produit.id}" class="btn btn-primary">    <i class="fas fa-info-circle"></i> <!-- icône d'information -->
+    Voir détails
+</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        })
+        .catch(error => {
+            console.error('Une erreur s\'est produite :', error);
+        });
+}
+// JavaScript pour gérer les clics sur les boutons Ajouter au panier et Voir détails
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('add-to-cart')) {
+        const productId = event.target.dataset.id;
+        const addToCartUrl = "{{ path('addpanier', {'id': 'PRODUCT_ID'}) }}".replace('PRODUCT_ID', productId);
+        window.location.href = addToCartUrl;
+    } else if (event.target.classList.contains('view-details')) {
+        const productId = event.target.dataset.id;
+        const viewDetailsUrl = "{{ path('produitdetail', {'id': 'PRODUCT_ID'}) }}".replace('PRODUCT_ID', productId);
+        window.location.href = viewDetailsUrl;
+    }
+});
+
+</script>
+{% endblock %}

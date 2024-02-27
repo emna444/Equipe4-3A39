@@ -13,13 +13,13 @@ class Bonus
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $med = null;
+    private ?int $id = null;
 
     #[ORM\Column]
     private ?int $montant = null;
 
     #[ORM\Column]
-    private ?int $utiliser = null;
+    private ?int $utilisier = null;
 
     #[ORM\OneToMany(targetEntity: Dons::class, mappedBy: 'bonus')]
     private Collection $dons;
@@ -46,14 +46,14 @@ class Bonus
         return $this;
     }
 
-    public function getUtiliser(): ?int
+    public function getUtilisier(): ?int
     {
-        return $this->utiliser;
+        return $this->utilisier;
     }
 
-    public function setUtiliser(int $utiliser): static
+    public function setUtilisier(int $utilisier): static
     {
-        $this->utiliser = $utiliser;
+        $this->utilisier = $utilisier;
 
         return $this;
     }

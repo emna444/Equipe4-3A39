@@ -1,0 +1,22 @@
+<!-- Grid de produits -->
+<div class="container mt-5" id="productsContainer">
+    <div class="row">
+        {% for p in response %}
+            <div class="col-md-4 mb-4 product-card">
+                <div class="card h-100">
+                    <div class="card h-100 zoom-on-hover">
+                        <img class="card-img-top product-img" src="{{ asset('uploads/' ~ p.ImageName) }}" alt="{{ p.nom }}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ p.nom }}</h5>
+                        <p class="card-text">{{ p.prix }} DT</p>
+                        <a href="{{ path('addpanier', {'id': p.id}) }}" class="btn btn-danger">
+                            <i class="fas fa-shopping-cart"></i> Ajouter au panier
+                        </a>
+                        <a href="{{ path('produitdetail', {'id': p.id}) }}" class="btn btn-danger"> Voir détails </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

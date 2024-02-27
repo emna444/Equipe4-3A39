@@ -36,6 +36,7 @@ class Evenement
         $this->partenaires = new ArrayCollection();
     }
 
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -118,4 +119,6 @@ class Evenement
 
         return $this;
     }
+
+ 
 }

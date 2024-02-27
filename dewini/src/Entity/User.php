@@ -34,9 +34,6 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $ville = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $date_naissance = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -126,15 +123,5 @@ class User
         return $this;
     }
 
-    public function getDateNaissance(): ?string
-    {
-        return $this->date_naissance;
-    }
-
-    public function setDateNaissance(string $date_naissance): static
-    {
-        $this->date_naissance = $date_naissance;
-
-        return $this;
-    }
+    
 }
