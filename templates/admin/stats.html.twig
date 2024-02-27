@@ -1,0 +1,77 @@
+{% extends 'back.html.twig' %}
+
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Statistiques</h1>
+    <canvas id="verificationChart" width="400" height="150"></canvas>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let verification = document.getElementById("verificationChart");
+        let activCount = {{ activ }};
+        let inactivCount = {{ inactiv }};
+
+        new Chart(verification, {
+            type: "pie",
+            data: {
+                labels: ["Vérifiés", "Non vérifiés"],
+                datasets: [{
+                    data: [activCount, inactivCount],
+                    backgroundColor: ["#6495ED", "#DE3163"]
+                }]
+            },
+            options: {
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 2000 // Increase animation duration
+                },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        fontSize: 14,
+                        fontColor: '#333',
+                        padding: 20
+                    }
+                },
+                    stroke: {
+      show: true,
+      width: 3,
+      lineCap: "butt",
+      colors: ["transparent"],
+    },
+
+                title: {
+                    display: true,
+                    text: 'Statut de vérification des comptes',
+                    fontSize: 18,
+                    fontColor: '#000',
+                    padding: 20
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var dataset = data.datasets[tooltipItem.datasetIndex];
+                            var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                                return previousValue + currentValue;
+                            });
+                            var currentValue = dataset.data[tooltipItem.index];
+                            var percentage = Math.floor(((currentValue / total) * 100) + 0.5); // Round to nearest integer
+                           var label = data.labels[tooltipItem.index]; // Get the label name
+            return label + ": " + percentage + "%"; 
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

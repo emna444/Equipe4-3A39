@@ -20,10 +20,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    /**
- * @Assert\NotBlank(message="Le champ email ne doit pas être vide.")
- * @Assert\Email(message="L'adresse email n'est pas valide.")
- */
+
+    #[Assert\NotBlank(message:"Le champ email ne doit pas être vide.")]
+    #[Assert\Email(message:"L'adresse email n'est pas valide.")]
+
 
     private ?string $email = null;
 
@@ -38,66 +38,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column]
- 
-/**
- * @Assert\NotBlank(message="Le champ CIN ne doit pas être vide.")
- * @Assert\Length(
- *     min=8,
- *     max=8,
- *     exactMessage="Le champ doit contenir exactement 8 numeros."
- * )
- */
+    #[Assert\Length( min:8, max:8, exactMessage:"Le champ doit contenir exactement 8 numeros.")]
+    #[Assert\NotBlank( message:"Le champ Cin ne doit pas être vide.")]
+    #[Assert\Regex(pattern:"/^\d+$/", message:"Le champ Cin ne doit contenir que des chiffres")]
     private ?int $cin = null;
 
     #[ORM\Column(length: 255)]
-    /**
- * @Assert\NotBlank(message="Le champ nom ne doit pas être vide.")
- * @Assert\Regex(
- *     pattern="/^[a-zA-Z\s]+$/",
- *     message="Le champ ne doit contenir que des lettres."
- * )
- */
+    #[Assert\NotBlank( message:"Le champ nom ne doit pas être vide.")]
+    #[Assert\Regex(pattern:"/^[a-zA-Z\s]+$/", message:"Le champ ne doit contenir que des lettres.")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    /**
- * @Assert\NotBlank(message="Le champ nom ne doit pas être vide.")
- * @Assert\Regex(
- *     pattern="/^[a-zA-Z\s]+$/",
- *     message="Le champ ne doit contenir que des lettres."
- * )
- */
+    #[Assert\NotBlank( message:"Le champ prenom ne doit pas être vide.")]
+    #[Assert\Regex(pattern:"/^[a-zA-Z\s]+$/", message:"Le champ ne doit contenir que des lettres.")]
     private ?string $prenom = null;
 
     
 
     #[ORM\Column]
- 
-/**
- * @Assert\NotBlank(message="Le champ telephone ne doit pas être vide.")
- * @Assert\Length(
- *     min=8,
- *     max=8,
- *     exactMessage="Le champ doit contenir exactement 8 numeros."
- * )
- * @Assert\Regex(
- *     pattern="/^\d+$/",
- *     message="Le champ téléphone ne doit contenir que des chiffres."
- * )
- */
-
+    #[Assert\Length( min:8, max:8, exactMessage:"Le champ doit contenir exactement 8 numeros.")]
+    #[Assert\NotBlank( message:"Le champ telephone ne doit pas être vide.")]
+    #[Assert\Regex(pattern:"/^\d+$/", message:"Le champ téléphone ne doit contenir que des chiffres")]
     private ?int $telephone = null;
 
     #[ORM\Column(length: 255)]
-        /**
- * @Assert\NotBlank(message="Le ville nom ne doit pas être vide.")
- 
- * @Assert\Regex(
- *     pattern="/^[a-zA-Z\s]+$/",
- *     message="Le champ ne doit contenir que des lettres."
- * )
- */
+    #[Assert\NotBlank( message:"Le champ ville ne doit pas être vide.")]
+    #[Assert\Regex(pattern:"/^[a-zA-Z\s]+$/", message:"Le champ ne doit contenir que des lettres.")]
     private ?string $ville = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private $is_verified = false;
+    
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $resetToken;
 
     
 
@@ -111,7 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 
@@ -195,7 +168,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->cin;
     }
 
-    public function setCin(int $cin): static
+    public function setCin(?int $cin): static
     {
         $this->cin = $cin;
 
@@ -207,7 +180,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->nom;
     }
 
-    public function setNom(string $nom): static
+    public function setNom(?string $nom): static
     {
         $this->nom = $nom;
 
@@ -219,7 +192,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setPrenom(?string $prenom): static
     {
         $this->prenom = $prenom;
 
@@ -233,7 +206,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->telephone;
     }
 
-    public function setTelephone(int $telephone): static
+    public function setTelephone(?int $telephone): static
     {
         $this->telephone = $telephone;
 
@@ -245,12 +218,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->ville;
     }
 
-    public function setVille(string $ville): static
+    public function setVille(?string $ville): static
     {
         $this->ville = $ville;
 
         return $this;
     }
 
+    public function getIsVerified(): ?bool
+    {
+        return $this->is_verified;
+    }
+
+    public function setIsVerified(bool $is_verified): self
+    {
+        $this->is_verified = $is_verified;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
     
 }

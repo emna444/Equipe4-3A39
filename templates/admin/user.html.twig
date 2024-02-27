@@ -3,10 +3,12 @@
 {% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>Liste des utilisateurs</h1>
-    <div class="mb-3">
-        <a href="{{ path('admin_ajouter_utilisateur') }}" class="btn btn-success">Ajouter un utilisateur</a>
-    </div>
+<div style="display: flex; align-items: center; margin-bottom: 10px;">
+<h1>Liste des utilisateurs</h1>
+    <a href="{{ path('admin_ajouter_utilisateur') }}" class="fa-solid fa-user-plus fa-flip"style="--fa-animation-duration: 3s; margin-left: 760px; font-size: 28px; color: #042041;"></a>
+    
+</div>
+
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
@@ -44,8 +46,9 @@
                         <td>{{ user.telephone }}</td>
                         <td>{{ user.ville }}</td>
                         <td>
-                            <a href="{{ path('admin_modifier_utilisateur', {'id': user.id}) }}" class="btn btn-primary">Modifier</a>
-                            <a href="{{ path('admin_supprimer_utilisateur', {'id': user.id}) }}" class="btn btn-danger">Supprimer</a>
+<a href="{{ path('admin_modifier_utilisateur', {'id': user.id}) }}" class="fa-solid fa-cog fa-spin" style="font-size: 30px; color: #117A65; margin-right: 5px;"></a>
+<a href="{{ path('admin_supprimer_utilisateur', {'id': user.id}) }}" class="fa-solid fa-trash-can fa-beat-fade"style="--fa-beat-fade-opacity: 0.4; --fa-beat-fade-scale: 1.000; font-size: 30px; color: #CB4335; margin-left: 5px;"></a>
+
                         </td>
                     </tr>
                 {% else %}

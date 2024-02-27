@@ -114,6 +114,42 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('admin_utilisateurs');
     }
+
+    /**
+ * @Route("/stats", name="stats")
+ */
+public function statistiques(UserRepository $userRepository)
+{
+    // Récupérer les utilisateurs vérifiés et non vérifiés
+    $users = $userRepository->findAll();
+
+    $activ = 0;
+    $inactiv = 0;
+
+    // Compter les utilisateurs vérifiés et non vérifiés
+    foreach ($users as $user) {
+        if ($user->getIsVerified()) {
+            $activ++;
+        } else {
+            $inactiv++;
+        }
+    }
+
+    $villes = $userRepository->findAll();
+
+        $vil = [];
+
+        foreach($villes as $ville){
+            $vil[] = $ville->getVille();
+        }
+
+    return $this->render('admin/stats.html.twig', [
+        'activ' => $activ,
+        'inactiv' => $inactiv,
+        'vil' => json_encode($vil),
+    ]);
+}
+
     
 
 }

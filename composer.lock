@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6d26a4b59ec75230b45191ad3d48c3b",
+    "content-hash": "ab5b1054be2571f962c11dff4ef54966",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -263,47 +263,42 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.8.0",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "d244f2e6e6bf32bff5174e6729b57214923ecec9"
+                "reference": "53df8c432978b716a805143eb701436d54ec705e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/d244f2e6e6bf32bff5174e6729b57214923ecec9",
-                "reference": "d244f2e6e6bf32bff5174e6729b57214923ecec9",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/53df8c432978b716a805143eb701436d54ec705e",
+                "reference": "53df8c432978b716a805143eb701436d54ec705e",
                 "shasum": ""
             },
             "require": {
-                "composer-runtime-api": "^2",
-                "doctrine/cache": "^1.11|^2.0",
                 "doctrine/deprecations": "^0.5.3|^1",
-                "doctrine/event-manager": "^1|^2",
-                "php": "^7.4 || ^8.0",
+                "php": "^8.1",
                 "psr/cache": "^1|^2|^3",
                 "psr/log": "^1|^2|^3"
             },
             "require-dev": {
                 "doctrine/coding-standard": "12.0.0",
                 "fig/log-test": "^1",
-                "jetbrains/phpstorm-stubs": "2023.1",
-                "phpstan/phpstan": "1.10.56",
+                "jetbrains/phpstorm-stubs": "2023.2",
+                "phpstan/phpstan": "1.10.57",
+                "phpstan/phpstan-phpunit": "1.3.15",
                 "phpstan/phpstan-strict-rules": "^1.5",
-                "phpunit/phpunit": "9.6.15",
+                "phpunit/phpunit": "10.5.9",
                 "psalm/plugin-phpunit": "0.18.4",
                 "slevomat/coding-standard": "8.13.1",
                 "squizlabs/php_codesniffer": "3.8.1",
-                "symfony/cache": "^5.4|^6.0|^7.0",
-                "symfony/console": "^4.4|^5.4|^6.0|^7.0",
-                "vimeo/psalm": "4.30.0"
+                "symfony/cache": "^6.3.8|^7.0",
+                "symfony/console": "^5.4|^6.3|^7.0",
+                "vimeo/psalm": "5.16.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
             },
-            "bin": [
-                "bin/doctrine-dbal"
-            ],
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -356,7 +351,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.8.0"
+                "source": "https://github.com/doctrine/dbal/tree/4.0.0"
             },
             "funding": [
                 {
@@ -372,7 +367,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-25T21:44:02+00:00"
+            "time": "2024-02-03T19:11:19+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -3664,6 +3659,72 @@
                 }
             ],
             "time": "2024-01-23T14:28:09+00:00"
+        },
+        {
+            "name": "symfony/google-mailer",
+            "version": "v5.4.35",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/google-mailer.git",
+                "reference": "6d7191a30fd2ae0ab740a93cfbf7fba64834aed6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/google-mailer/zipball/6d7191a30fd2ae0ab740a93cfbf7fba64834aed6",
+                "reference": "6d7191a30fd2ae0ab740a93cfbf7fba64834aed6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "psr/event-dispatcher": "^1",
+                "symfony/mailer": "^5.4.21|^6.2.7"
+            },
+            "require-dev": {
+                "symfony/http-client": "^4.4|^5.0|^6.0"
+            },
+            "type": "symfony-mailer-bridge",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Mailer\\Bridge\\Google\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Google Mailer Bridge",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/google-mailer/tree/v5.4.35"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-01-23T13:51:25+00:00"
         },
         {
             "name": "symfony/http-client",
@@ -7086,6 +7147,86 @@
                 }
             ],
             "time": "2024-01-23T13:51:25+00:00"
+        },
+        {
+            "name": "symfony/ux-chartjs",
+            "version": "v2.15.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/ux-chartjs.git",
+                "reference": "9f9d9b33627c6f6dcf59f29f4f955172da3c437d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/ux-chartjs/zipball/9f9d9b33627c6f6dcf59f29f4f955172da3c437d",
+                "reference": "9f9d9b33627c6f6dcf59f29f4f955172da3c437d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "symfony/config": "^5.4|^6.0|^7.0",
+                "symfony/dependency-injection": "^5.4|^6.0|^7.0",
+                "symfony/http-kernel": "^5.4|^6.0|^7.0",
+                "symfony/stimulus-bundle": "^2.9.1"
+            },
+            "conflict": {
+                "symfony/flex": "<1.13"
+            },
+            "require-dev": {
+                "symfony/framework-bundle": "^5.4|^6.0|^7.0",
+                "symfony/phpunit-bridge": "^5.4|^6.0|^7.0",
+                "symfony/twig-bundle": "^5.4|^6.0|^7.0",
+                "symfony/var-dumper": "^5.4|^6.0|^7.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "thanks": {
+                    "name": "symfony/ux",
+                    "url": "https://github.com/symfony/ux"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\UX\\Chartjs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Titouan Galopin",
+                    "email": "galopintitouan@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Chart.js integration for Symfony",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "symfony-ux"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/ux-chartjs/tree/v2.15.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-02-20T16:11:17+00:00"
         },
         {
             "name": "symfony/ux-turbo",
