@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails de la commande</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        h1, h2 {
+            color: #22427C;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #555;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        td {
+            background-color: #ffffff;
+            color: #666;
+        }
+        tr:hover td {
+            background-color: #f5f5f5;
+        }
+        .total {
+            font-weight: bold;
+            text-align: right;
+        }
+        .text-danger {
+            color: red;
+        }
+         .datetime {
+            color: #6c757d;
+            text-align: right;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       <p> <h1>Détails de la commande:</strong> {{ commande.id }}</p></h1>
+        <p><strong>Référence de la commande:</strong> {{ commande.reference }}</p>
+                            <p class="datetime">{{ "now"|date("d/m/Y H:i:s") }}</p>
+
+        <h2>Produits commandés</h2>
+            <table>
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% set total_commande = 0 %}
+                {% for detailCommande in commande.detailCommandes %}
+                    <tr>
+                        <td>{{ detailCommande.produit.nom }}</td>
+                        <td>{{ detailCommande.quantite }}</td>
+                        <td >{{ detailCommande.prix }}</td>
+                         <td class="text-danger">{{ detailCommande.quantite * detailCommande.prix }}</td>
+                    </tr>
+                    {% set total_commande = total_commande + (detailCommande.quantite * detailCommande.prix) %}
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="total">Total</td>
+                   <td class="text-danger">{{ total_commande }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</body>
+</html>
