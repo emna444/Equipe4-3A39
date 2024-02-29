@@ -23,7 +23,8 @@ class Dons
     #[ORM\Column]
     private ?int $eligibilite = null;
 
-    #[ORM\ManyToOne(inversedBy: 'dons')]
+    #[ORM\ManyToOne(targetEntity: Bonus::class, inversedBy: 'dons')]
+    #[ORM\JoinColumn(name: 'bonus_id', referencedColumnName: 'id')]
     private ?Bonus $bonus = null;
 
     public function getId(): ?int
@@ -39,7 +40,6 @@ class Dons
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -51,7 +51,6 @@ class Dons
     public function setEtat(int $etat): static
     {
         $this->etat = $etat;
-
         return $this;
     }
 
@@ -63,7 +62,6 @@ class Dons
     public function setEligibilite(int $eligibilite): static
     {
         $this->eligibilite = $eligibilite;
-
         return $this;
     }
 
@@ -75,7 +73,6 @@ class Dons
     public function setBonus(?Bonus $bonus): static
     {
         $this->bonus = $bonus;
-
         return $this;
     }
 }

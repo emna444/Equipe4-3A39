@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de la réclamation</title>
+    <style>
+        /* Styles personnalisés */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            background-color: #f9f9f9; /* Couleur de fond */
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #007bff; /* Couleur bleue */
+            color: #ffffff; /* Texte en blanc */
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .content {
+            border: 1px solid #dddddd; /* Bordure grise */
+            padding: 20px;
+            background-color: #ffffff; /* Fond blanc */
+            border-radius: 10px; /* Coins arrondis */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+            max-width: 600px; /* Largeur maximale */
+            margin: 0 auto; /* Centrage horizontal */
+        }
+        p {
+            margin-bottom: 15px; /* Marge en bas des paragraphes */
+        }
+        strong {
+            color: #007bff; /* Couleur bleue pour les textes en gras */
+        }
+        .description {
+            font-style: italic;
+            color: #888888; /* Couleur grise */
+        }
+        ul {
+            list-style-type: disc; /* Puces rondes */
+            margin-left: 20px;
+            color: #007bff; /* Couleur bleue pour les listes */
+        }
+        .email-form {
+            margin-top: 30px;
+        }
+        .email-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            box-sizing: border-box; /* Inclure la bordure dans la largeur */
+        }
+        .send-button {
+            background-color: #007bff; /* Couleur bleue */
+            color: #ffffff; /* Texte en blanc */
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .send-button:hover {
+            background-color: #0056b3; /* Couleur bleue plus foncée au survol */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Détails de la réclamation</h1>
+    </div>
+    <div class="content">
+        <p><strong>ID :</strong> {{ reclamation.id }}</p>
+        <p><strong>Description :</strong> {{ reclamation.description }}</p>
+        <p><strong>Date de création :</strong> {{ reclamation.date|date('Y-m-d H:i:s') }}</p>
+        <!-- Ajoutez d'autres détails de réclamation selon vos besoins -->
+        
+        <!-- Formulaire d'adresse e-mail -->
+        
+            <input type="email" name="email" class="email-input" placeholder="Entrez votre adresse e-mail" required>
+            <button type="submit" class="send-button">Envoyer le PDF</button>
+        </form>
+    </div>
+</body>
+</html>
+ 

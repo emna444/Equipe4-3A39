@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Réponse{% endblock %}
+
+{% block body %}
+    <h1>Nouvelle Réponse</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.date) }}
+        {{ form_row(form.contenu) }}
+        {{ form_row(form.reclamation) }}
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    {{ form_end(form) }}
+{% endblock %}

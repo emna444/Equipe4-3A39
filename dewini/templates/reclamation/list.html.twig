@@ -1,0 +1,46 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}
+    <center>Liste des Réclamations</center> 
+{% endblock %}
+
+{% block body %}
+    <h1>Liste des Réclamations</h1>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Type</th>
+                <th scope="col">Priorité</th>
+                <th scope="col">Commentaires</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reclamation in reclamations %}
+                <tr>
+                    <th scope="row">{{ reclamation.id }}</th>
+                    <td>{{ reclamation.date|date('Y-m-d') }}</td>
+                    <td>{{ reclamation.description }}</td>
+                    <td>{{ reclamation.type }}</td>
+                    <td>{{ reclamation.priorite }}</td>
+                    <td>{{ reclamation.commentaires }}</td>
+                    <td>
+                        <a href="{{ path('reclamation_new', {'id': reclamation.id}) }}" class="btn btn-primary">
+                            <i class="bi bi-pencil-square animate__animated animate__heartBeat"></i> <!-- Icône pour modifier avec l'animation heartBeat -->
+                        </a>
+                        <a href="{{ path('back_reclamation_delete', {'id': reclamation.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation?')">
+                            <i class="bi bi-trash animate__animated animate__bounce"></i> <!-- Icône pour supprimer avec l'animation bounce -->
+                        </a>
+                        <a href="{{ path('download_reclamation_pdf', {'id': reclamation.id}) }}" class="btn btn-success">
+                            <i class="bi bi-file-pdf animate__animated animate__flash"></i> <!-- Icône pour le PDF avec l'animation flash -->
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

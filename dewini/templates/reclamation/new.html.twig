@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Réclamation{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <style>
+        body {
+            background-image: url('{{ asset('public/assets/images/backgrounds/rocket.png') }}');
+            /* Autres styles de fond */
+        }
+        form {
+            background-color: rgba(255, 255, 255, 0.5); /* Couleur de fond transparente */
+            /* Autres styles du formulaire */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1 class="text-center">Ajouter une Réclamation</h1>
+
+        {% if app.flashes('success_message') %}
+            <div class="alert alert-success">
+                {{ app.flashes('success_message')[0] }}
+            </div>
+        {% endif %}
+
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        <div class="form-group">
+            {{ form_label(form.date) }}
+            {{ form_widget(form.date, {'attr': {'class': 'form-control', 'type': 'text', 'placeholder': 'YYMMDD'}}) }}
+            {% if form_errors(form.date) %}
+                <div class="invalid-feedback" style="color: red;">
+                    {{ form_errors(form.date) }}
+                </div>
+            {% endif %}
+        </div>
+        <!-- Ajoutez le reste du formulaire ici -->
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-submit">Ajouter</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}

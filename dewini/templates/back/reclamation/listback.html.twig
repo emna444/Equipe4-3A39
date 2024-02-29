@@ -1,0 +1,37 @@
+{# templates/back/reclamation/listback.html.twig #}
+
+{% extends 'base1.html.twig' %}
+
+                            {% block title %}Liste des réclamations (Back){% endblock %}
+
+{% block body %}
+    <h1>Liste des réclamations (Back)</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Priorité</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reclamation in reclamations %}
+                <tr>
+                    <td>{{ reclamation.date|date('Y-m-d') }}</td>
+                    <td>{{ reclamation.description }}</td>
+                    <td>{{ reclamation.type }}</td>
+                    <td>{{ reclamation.priorite }}</td>
+                    <td>
+                        <a href="{{ path('back_reclamation_edit', {'id': reclamation.id}) }}">Modifier</a>
+                        <a href="{{ path('back_reclamation_delete', {'id': reclamation.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation?')">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('back_reclamation_add') }}">Ajouter une réclamation</a>
+{% endblock %}

@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="en">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <head>
     {% block css%}
@@ -58,7 +61,7 @@
               <span class="hide-menu">Home</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="{{ path('back') }}" aria-expanded="false">
+              <a class="sidebar-link" href="{{ path('reclamation_new') }}" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
@@ -78,35 +81,36 @@
               </a>
             </li>
             <li class="sidebar-item">
-             <a class="sidebar-link"  href="{{ path('fetchback') }}" aria-expanded="false" >
+             <a class="sidebar-link"  href="{{ path('reclamation_list') }}" aria-expanded="false" >
+            
     <span>
       <i class="bi bi-cart3"></i> <!-- Utilisation de l'icône de panier d'achat de Bootstrap Icons -->
     </span>
-    <span class="hide-menu">Produits</span>
+    <span class="hide-menu">Reclamations</span>
   </a>
 </li>
  </li>
             <li class="sidebar-item">
-             <a class="sidebar-link"  href="{{ path('add') }}" aria-expanded="false" >
+             <a class="sidebar-link"  href="{{ path('reponse_new') }}" aria-expanded="false" >
     <span>
 <i class="bi bi-plus-circle"></i>    </span>
-    <span class="hide-menu">Ajouter Produit</span>
+    <span class="hide-menu">Ajouter Reclamation</span>
   </a>
 </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="{{ path('affichercommande') }}" aria-expanded="false">
+              <a class="sidebar-link" href="{{ path('reclamation_new') }}" aria-expanded="false">
               <span>
                   <i class="ti ti-file-description"></i>
                 </span>
-                <span class="hide-menu">Commandes</span>
+                <span class="hide-menu">Reclamations</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="{{ path('afficherdetail') }}" aria-expanded="false">
+              <a class="sidebar-link" href="{{ path('reclamation_list') }}" aria-expanded="false">
                 <span>
                   <i class="ti ti-cards"></i>
                 </span>
-                <span class="hide-menu">Detail des Commandes</span>
+                <span class="hide-menu">list des Reclamations</span>
               </a>
             </li>
             <li class="sidebar-item">
