@@ -38,6 +38,9 @@
             "./migrations/.gitignore"
         ]
     },
+    "endroid/qr-code-bundle": {
+        "version": "5.0.1"
+    },
     "knplabs/knp-time-bundle": {
         "version": "v2.2.0"
     },

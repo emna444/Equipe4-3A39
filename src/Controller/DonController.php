@@ -20,10 +20,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\User;
 use App\Entity\Bonus;
 use Doctrine\ORM\EntityManagerInterface;
-
-
-
-
+use BaconQrCode\Common\ErrorCorrectionLevel;
+use BaconQrCode\Encoder\Encoder;
+use BaconQrCode\Writer\PngWriter;
+use BaconQrCode\Writer\Writer;
 
 class DonController extends AbstractController
 {
@@ -83,64 +83,86 @@ public function fetchb(DonsRepository $repo): Response
      }
 
      #[Route('/show', name: 'show')]
-     public function show(DonsRepository $repo): Response
-     {
-         $result = $repo ->findAll();
-         return $this -> render('/don/show.html.twig',[
-             'response' => $result
-         ]);
-     }
+public function show(DonsRepository $repo): Response
+{
+    $result = $repo->findAll();
+    return $this->render('/don/show.html.twig', [
+        'response' => $result
+    ]);
+}
 
-     
-     #[Route('/addD', name: 'addD')]
-     public function addD(Request $req, ManagerRegistry $mr): Response
-     {
-         $imageDir = $this->getParameter('image_dir');
-         $userRepository = $mr->getRepository(User::class);
-         $user = $userRepository->find(123); // Assuming user with ID 123 exists
-     
-         if (!$user) {
-             throw $this->createNotFoundException('User not found');
-         }
-     
-         $d = new Dons();
-         $d->setUserId($user->getId());
-         $form = $this->createForm(DonsType::class, $d);
-         $form->handleRequest($req);
-         $bonus = null; // Initialize $bonus variable
-     
-         if ($form->isSubmitted() && $form->isValid()) {
-             $this->handleImageUpload($form, $d, $imageDir);
-     
-             // Increment donation count and check for bonus
-             $user->setDonCount($user->getDonCount() + 1);
-             if ($user->getDonCount() % 3 === 0) {
-                $user->setDonCount(0);
-                 $bonus = new Bonus();
-                 $bonus->setMontant(1.0);
-                 $bonus->setPatient($user);
-             }
-     
-             $em = $mr->getManager();
-             $em->persist($d);
-             $em->persist($user);
-             if ($bonus !== null) {
-                $em->persist($bonus);
-            }             
-             $em->flush();
-     
-             $this->addFlash(
-                 'success',
-                 'Votre don a été créé avec succès !'
-             );
-     
-             return $this->redirectToRoute('fetchd');
-         }
-     
-         return $this->render('/don/form.html.twig', [
-             'f' => $form->createView()
-         ]);
-     }
+#[Route('/addD', name: 'addD')]
+public function addD(Request $req, ManagerRegistry $mr): Response
+{
+    $imageDir = $this->getParameter('image_dir');
+    $userRepository = $mr->getRepository(User::class);
+    $user = $userRepository->find(123); // Assuming user with ID 123 exists
+
+    if (!$user) {
+        throw $this->createNotFoundException('User not found');
+    }
+
+    $d = new Dons();
+    $d->setUserId($user->getId());
+    $form = $this->createForm(DonsType::class, $d);
+    $form->handleRequest($req);
+    $bonus = null; // Initialize $bonus variable
+    $qrCodePath = null; 
+    if ($form->isSubmitted() && $form->isValid()) {
+        $this->handleImageUpload($form, $d, $imageDir);
+        $data = $form->getData();
+
+        // Generate QR code for the donation ID
+        $qrCodeText = $d->getId();
+        $qrCodePath = $this->generateQrCode($qrCodeText);
+
+        // Set QR code path for the donation
+        $d->setQrCodePath($qrCodePath);
+
+        // Increment donation count and check for bonus
+        $user->setDonCount($user->getDonCount() + 1);
+        if ($user->getDonCount() % 3 === 0) {
+            $user->setDonCount(0);
+            $bonus = new Bonus();
+            $bonus->setMontant(1.0);
+            $bonus->setPatient($user);
+        }
+
+        $em = $mr->getManager();
+        $em->persist($d);
+        $em->persist($user);
+        if ($bonus !== null) {
+            $em->persist($bonus);
+        }
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'Votre don a été créé avec succès !'
+        );
+
+        return $this->redirectToRoute('fetchd');
+    }
+
+    return $this->render('/don/form.html.twig', [
+        'f' => $form->createView(),
+        'qrCodePath' => $qrCodePath,
+    ]);
+}
+
+private function generateQrCode(string $text): string
+{
+    $errorCorrectionLevel = new ErrorCorrectionLevel(ErrorCorrectionLevel::LOW);
+    $encoder = new Encoder($errorCorrectionLevel);
+    $writer = new PngWriter($encoder);
+    $qrCodeImage = $writer->writeString($text);
+
+    // Save the QR code image to a file
+    $qrCodePath = 'public/uploads/qr-code'; // Specify the path where you want to save the QR code image
+    file_put_contents($qrCodePath, $qrCodeImage);
+
+    return $qrCodePath;
+}
      
 
 

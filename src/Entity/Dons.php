@@ -73,6 +73,9 @@ class Dons
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'don')]
     private Collection $comments;
 
+    #[ORM\Column(length: 255)]
+    private ?string $qrCodePath = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -194,6 +197,18 @@ class Dons
                 $comment->setDon(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQrCodePath(): ?string
+    {
+        return $this->qrCodePath;
+    }
+
+    public function setQrCodePath(string $qrCodePath): static
+    {
+        $this->qrCodePath = $qrCodePath;
 
         return $this;
     }
