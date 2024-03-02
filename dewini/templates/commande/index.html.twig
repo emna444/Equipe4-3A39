@@ -1,4 +1,32 @@
 {% extends 'base1.html.twig' %}
+  {% block css%}
+ <style>
+    .form-error-message {
+    color: red;
+    font-size: 14px;
+
+}
+.left-sidebar {
+      background-color: #e6f2ff; /* Light blue color */
+    }</style>
+    <style>
+.btn-container {
+    display: flex;
+    justify-content: center; /* Pour centrer horizontalement */
+    align-items: center; /* Pour centrer verticalement */
+    height: 10vh; /* Réglage de la hauteur du conteneur (100% de la hauteur de la fenêtre) */
+} .table-row:hover {
+            background-color: #e6f2ff; /* Couleur de fond au survol */
+        }
+.custom-card {
+    background-color: #e6f2ff; /* Couleur de fond personnalisée */
+    border: 1px solid #ced4da; /* Bordure personnalisée */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+</style>
+    {% endblock %}
 
 {% block body %}
     <!-- Navbar Start -->
@@ -14,6 +42,7 @@
                 <tr>
                     <th>ID</th>
                     <th>REF</th>
+                    <th>TÉLÉCHARGER DÉTAIL</th> <!-- Nouvelle colonne pour le lien de téléchargement -->
                     <th>SUPPRIMER COMMANDE</th>
                 </tr>
             </thead>
@@ -22,6 +51,12 @@
                     <tr class="table-row">
                         <td><span style="color: blue;">{{ p.id }}</span></td>
                         <td>{{ p.reference }}</td>
+                      <td>
+    <a href="{{ path('telecharger_details_commande', {'id': p.id}) }}" class="btn btn-primary">
+        <i class="fas fa-file-download"></i> Facture
+    </a>
+</td>
+
                         <td>
                             <a href="{{ path('deletecommande', {'id': p.id}) }}" class="btn btn-danger">
                                 <i class="fas fa-trash-alt"></i> Supprimer

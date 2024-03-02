@@ -1,4 +1,32 @@
 {% extends 'base1.html.twig' %}
+  {% block css%}
+ <style>
+    .form-error-message {
+    color: red;
+    font-size: 14px;
+
+}
+.left-sidebar {
+      background-color: #e6f2ff; /* Light blue color */
+    }</style>
+    <style>
+.btn-container {
+    display: flex;
+    justify-content: center; /* Pour centrer horizontalement */
+    align-items: center; /* Pour centrer verticalement */
+    height: 10vh; /* Réglage de la hauteur du conteneur (100% de la hauteur de la fenêtre) */
+} .table-row:hover {
+            background-color: #e6f2ff; /* Couleur de fond au survol */
+        }
+.custom-card {
+    background-color: #e6f2ff; /* Couleur de fond personnalisée */
+    border: 1px solid #ced4da; /* Bordure personnalisée */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+</style>
+    {% endblock %}
 
 {% block body %}
 

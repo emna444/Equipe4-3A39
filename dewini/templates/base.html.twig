@@ -34,159 +34,95 @@
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <style>
-       .form-error-message {
-    color: red;
-    font-size: 14px;
+   /* Styles pour la bande attirante */
+  
+    .close-btn:hover {
+        color: red; /* Change la couleur de la croix au survol */
+    }
 
-}
-.custom-input {
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    width: 100%;
-    transition: border-color 0.3s ease-in-out;
-}
-
-.custom-input:focus {
-    outline: none;
-    border-color: #007bff;
-}
+    .band-content {
+        padding: 20px;
+    }
 
     .form-error-message {
-    color: red;
-    font-size: 14px;
-}.product-img {
-    width: 100%;
-    height: 300px; /* Vous pouvez ajuster cette valeur selon vos besoins */
-    object-fit: cover; /* Assure que l'image couvre complètement le conteneur tout en conservant ses proportions */
-}
-.fa-star {
-    color: #cccccc; /* Couleur de base des étoiles non sélectionnées */
-}
+        color: red;
+        font-size: 14px;
+    }
 
-.checked {
-    color: orange; /* Couleur des étoiles sélectionnées */
-}
+    .product-img {
+        width: 100%;
+        height: 300px;
+        /* Vous pouvez ajuster cette valeur selon vos besoins */
+        object-fit: cover;
+        /* Assure que l'image couvre complètement le conteneur tout en conservant ses proportions */
+    }
 
-/* CSS pour styliser les cartes d'avis */
-.card-title {
-    font-size: 18px;
-    font-weight: bold;
-}
+    .fa-star {
+        color: #cccccc;
+        /* Couleur de base des étoiles non sélectionnées */
+    }
 
-.card-text {
-    font-size: 16px;
-}
+    .checked {
+        color: orange;
+        /* Couleur des étoiles sélectionnées */
+    }
 
-.card {
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: box-shadow 0.3s;
-}
+    /* CSS pour styliser les cartes d'avis */
+    .card-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
 
-.card:hover {
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
+    .card-text {
+        font-size: 16px;
+    }
 
-.card-body {
-    padding: 20px;
-}
+    .custom-select-wrapper {
+        position: relative;
+    }
 
-.container {
-    margin-top: 30px;
-}
+    .custom-select-wrapper .custom-select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding-right: 32px;
+        /* Ajoutez de l'espace pour l'icône */
+        background-color: #f8f9fa;
+        /* Couleur de fond */
+        border: 1px solid #ced4da;
+        /* Bordure */
+        border-radius: 5px;
+        /* Coins arrondis */
+    }
 
-.star-rating {
-    font-size: 24px;
-    color: #cccccc; /* Couleur de base des étoiles */
-}
+    .select-arrow {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+    }
 
-.star-rating .fa-star {
-    cursor: pointer;
-}
+    .btn-primary {
+        background-color: #007bff;
+        /* Couleur de fond */
+        border-color: #007bff;
+        /* Couleur de la bordure */
+    }
 
-.star-rating .fa-star.checked,
-.star-rating .fa-star.hover {
-    color: orange; /* Couleur des étoiles sélectionnées et survolées */
-}
-.product-card .card-img-top {
-    object-fit: contain; /* Ajuste la taille de l'image tout en conservant ses proportions */
-    max-width: 100%; /* Assure que l'image ne dépasse pas la largeur de son conteneur */
-    max-height: 350px; /* Ajustez la hauteur maximale selon vos besoins */
-    margin: 0 auto; /* Centre l'image horizontalement */
-}
-.custom-select-wrapper {
-    position: relative;
-}
+    .btn-primary:hover {
+        background-color: #0056b3;
+        /* Couleur de fond au survol */
+        border-color: #0056b3;
+        /* Couleur de la bordure au survol */
+    }
 
-.custom-select-wrapper .custom-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    padding-right: 32px; /* Ajoutez de l'espace pour l'icône */
-    background-color: #f8f9fa; /* Couleur de fond */
-    border: 1px solid #ced4da; /* Bordure */
-    border-radius: 5px; /* Coins arrondis */
-}
-
-.select-arrow {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-}
-
-.btn-primary {
-    background-color: #007bff; /* Couleur de fond */
-    border-color: #007bff; /* Couleur de la bordure */
-}
-
-.btn-primary:hover {
-    background-color: #0056b3; /* Couleur de fond au survol */
-    border-color: #0056b3; /* Couleur de la bordure au survol */
-}
-/* Container de la pagination */
-.container-pagination {
-    margin-top: 20px;
-}
-
-/* Liste des pages */
-.pagination {
-    display: flex;
-    justify-content: center;
-}
-
-/* Éléments de la pagination */
-.pagination li {
-    list-style: none;
-    margin: 0 5px;
-}
-
-/* Lien de la page active */
-.pagination .active a {
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-    cursor: default;
-}
-
-/* Liens de pagination */
-.pagination a {
-    color: #007bff;
-    text-decoration: none;
-    border: 1px solid #007bff;
-    padding: 5px 10px;
-}
-
-/* Lien précédent et suivant */
-.pagination .prev,
-.pagination .next {
-    font-weight: bold;
-}
-
-
+    .star-rating .fa-star.checked,
+    .star-rating .fa-star.hover {
+        color: orange; /* Couleur des étoiles sélectionnées et survolées */
+    }
+ 
 </style>
+
     {% endblock %} 
       <title>DEWINI</title>
 
@@ -258,7 +194,7 @@
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="{{ path('app_produit') }}" class="nav-item nav-link active">Acceuil</a>
                           <div class="nav-item">
-  <a href="{{ path('fetch') }}" class="nav-link">
+                  <a href="{{ path('fetch') }}" class="nav-link">
     Produits <i class="nav-item nav-link"></i>
   </a>
 </div>
@@ -274,6 +210,11 @@
     </nav>
     <!-- Navbar End -->
 
+
+
+
+
+<!-- Fin de la section de la bande attirante -->
 
     <!-- Header Start -->
     {% block body %} 
@@ -429,9 +370,21 @@ $('.star-rating .fa-star').on('click', function() {
     $(this).prevAll().addBack().addClass('checked');
     $('input[name="form[note]"]').val(rating);
 });
+</script>
+<script>
+    function closeBanner() {
+        var banner = document.querySelector('.band-passante');
+        banner.style.display = 'none';
+    }
+
 
 </script>
 
+<script>
+    function closeBanner() {
+        document.querySelector('.band-passante').style.display = 'none';
+    }
+</script>
     {% endblock %}
 </body>
 

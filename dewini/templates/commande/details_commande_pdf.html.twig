@@ -66,13 +66,14 @@
 </head>
 <body>
     <div class="container">
-       <p> <h1>Détails de la commande:</strong> {{ commande.id }}</p></h1>
+       <p> <h1>Facture de la commande:</strong> {{ commande.id }}</p></h1>
         <p><strong>Référence de la commande:</strong> {{ commande.reference }}</p>
-                            <p class="datetime">{{ "now"|date("d/m/Y H:i:s") }}</p>
+                            <p class="datetime">telechargé le : {{ "now"|date("d/m/Y H:i:s") }}</p>
 
-        <h2>Produits commandés</h2>
             <table>
             <thead>
+                    <h2>Produits commandés</h2>
+
                 <tr>
                     <th>Produit</th>
                     <th>Quantité</th>

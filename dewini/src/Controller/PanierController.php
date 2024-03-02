@@ -30,6 +30,7 @@ class PanierController extends AbstractController
                 unset($panier[$id]);
                 $session->set('panier', $panier);
             }
+            
         }
     
         $total = 0;

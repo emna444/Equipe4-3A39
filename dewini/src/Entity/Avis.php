@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AvisRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert; // Ajoutez cette ligne
 
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
 class Avis
@@ -14,6 +15,7 @@ class Avis
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+
     private ?string $commentaire = null;
 
     #[ORM\Column]

@@ -42,11 +42,10 @@ class Produit
     #[ORM\Column(length: 255, nullable: true)]
    
     private ?string $ImageName = null;
-
-    #[ORM\OneToMany(targetEntity: DetailCommande::class, mappedBy: 'Produit')]
+    #[ORM\OneToMany(targetEntity: DetailCommande::class, mappedBy: 'Produit',orphanRemoval : true,cascade:['persist'])]
     private Collection $detailcommande;
 
-    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'Produit')]
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'Produit',orphanRemoval : true,cascade:['persist'])]
     private Collection $avis;
 
     public function __construct()
