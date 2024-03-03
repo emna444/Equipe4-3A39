@@ -37,11 +37,21 @@ class ReclamationController extends AbstractController
    
 
 
-    #[Route('/reclamations', name: 'reclamation_list')]
-    public function list(ReclamationRepository $reclamationRepository): Response
+    #[Route('/reclamations/filter', name: 'reclamation_filter_by_type')]
+    public function filterByType(Request $request, ReclamationRepository $reclamationRepository): Response
     {
-        $reclamations = $reclamationRepository->findAll();
-
+        // Récupérer le type sélectionné depuis la requête
+        $type = $request->query->get('type');
+    
+        // Vérifier si un type a été sélectionné
+        if ($type) {
+            // Récupérer les réclamations filtrées par type
+            $reclamations = $reclamationRepository->findBy(['type' => $type]);
+        } else {
+            // Si aucun type n'a été sélectionné, afficher toutes les réclamations
+            $reclamations = $reclamationRepository->findAll();
+        }
+    
         return $this->render('reclamation/list.html.twig', [
             'reclamations' => $reclamations,
         ]);

@@ -14,12 +14,40 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
+    /* Style personnalisé pour le champ de filtrage */
+    #type {
+        background-color: rgba(0, 0, 0, 0.1); /* Couleur de fond transparente */
+        border: none; /* Supprime les bordures */
+        padding: 5px; /* Ajoute un peu de marge intérieure */
+    }
+
+    /* Style personnalisé pour le bouton de filtrage */
+    button[type="submit"] {
+        background-color: blue; /* Couleur de fond bleue */
+        color: white; /* Texte en blanc */
+        border: none; /* Supprime les bordures */
+        padding: 8px 15px; /* Ajoute un peu de marge intérieure */
+        cursor: pointer; /* Curseur de souris en pointer */
+    }
 </style>
 <script src="https://cdn.datatables.net/v/bs/jq-3.7.0/dt-2.0.1/datatables.min.js"></script>
 {% endblock %}
 
 {% block body %}
     <h1>Liste des Réclamations</h1>
+
+    <form action="{{ path('reclamation_filter_by_type') }}" method="get">
+        <label for="type">Filtrer par type :</label>
+        <select name="type" id="type">
+            <option value="">Tous</option>
+            <option value="negative">Negative</option>
+            <option value="positive">Positive</option>
+            <option value="neutre">Neutre</option>
+
+        </select>
+        <button type="submit">Filtrer</button>
+    </form>
     
     <table class="table" id="example">
         <thead>
