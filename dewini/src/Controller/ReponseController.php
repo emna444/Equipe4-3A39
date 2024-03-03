@@ -16,69 +16,50 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ReponseController extends AbstractController
 {
     private $entityManager;
-    private $mailer;
-
-    public function __construct(EntityManagerInterface $entityManager, MailerInterface $mailer)
+  
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->mailer = $mailer;
+        
     }
 
     #[Route('/reponse/new', name: 'reponse_new')]
-public function new(Request $request): Response
-{
-    $reponse = new Reponse();
-    $form = $this->createForm(ReponseType::class, $reponse);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $this->entityManager->persist($reponse);
-        $this->entityManager->flush();
-
-        $this->addFlash('success', 'Réponse ajoutée avec succès.');
-        // Envoi de l'e-mail à l'utilisateur
-        $this->sendEmailToUser($reponse);
-
-        // Rediriger vers la route 'confirmation'
-        return new RedirectResponse($this->generateUrl('confirmation'));
+    public function new(Request $request): Response
+    {
+        $reponse = new Reponse();
+        $form = $this->createForm(ReponseType::class, $reponse);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($reponse);
+            $this->entityManager->flush();
+    
+            $this->addFlash('success', 'Réponse ajoutée avec succès.');
+    
+            // Rediriger vers la route 'confirmation'
+            return new RedirectResponse($this->generateUrl('confirmation'));
+        }
+    
+        return $this->render('reponse/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
-
-    return $this->render('reponse/new.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
- // Méthode pour envoyer un e-mail à l'utilisateur
- private function sendEmailToUser(Reponse $reponse)
- {
-     $reclamation = $reponse->getReclamation(); 
-     $user = $reclamation->getUser();  
- 
-     // Récupérer l'email de l'utilisateur
-     $userEmail = $user->getEmail();
- 
-     $email = (new Email())
-         ->from('wiem.errouissi@esprit.tn')
-         ->to($userEmail)
-         ->subject('Votre réclamation a reçu une réponse')
-         ->html('Bonjour,<br><br>Votre réclamation a reçu une réponse.<br><br>Cordialement.');
- 
-     $this->mailer->send($email);
- }
-
-
+    
 #[Route('/confirmation', name: 'confirmation', methods: ['GET'])]
 public function confirmation(): Response
 {
     return $this->render('reponse/confirmation.html.twig');
 }
 
-    #[Route('/reponse/{id}', name: 'reponse_show')]
-    public function show(Reponse $reponse): Response
-    {
-        return $this->render('reponse/show.html.twig', [
-            'reponse' => $reponse,
-        ]);
-    }
+#[Route('/reponses', name: 'reponse_list')]
+public function list(): Response
+{
+    $reponses = $this->getDoctrine()->getRepository(Reponse::class)->findAll();
+
+    return $this->render('reponse/list.html.twig', [
+        'reponses' => $reponses,
+    ]);
+}
 
     #[Route('/reponse/edit/{id}', name: 'reponse_edit')]
     public function edit(Request $request, Reponse $reponse): Response

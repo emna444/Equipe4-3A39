@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Réponses{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="text-center">Liste des Réponses</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Contenu</th>
+                    <th scope="col">Réclamation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if reponses is not empty %}
+                    {% for reponse in reponses %}
+                        <tr>
+                            <th scope="row">{{ reponse.id }}</th>
+                            <td>{{ reponse.date ? reponse.date|date('d/m/Y') : 'N/A' }}</td>
+                            <td>{{ reponse.contenu ?: 'N/A' }}</td>
+                            <td>{{ reponse.reclamation ? reponse.reclamation.description : 'N/A' }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">Aucune réponse trouvée.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

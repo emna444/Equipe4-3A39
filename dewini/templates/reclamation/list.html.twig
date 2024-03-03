@@ -6,13 +6,18 @@
 
 {% block stylesheet %}
 <!-- jQuery -->
- >
-
 <link href="https://cdn.datatables.net/v/bs/jq-3.7.0/dt-2.0.1/datatables.min.css" rel="stylesheet">
- 
+<style>
+    .description-column, .commentaires-column {
+        max-width: 300px; /* ajustez la largeur maximale selon vos besoins */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
 <script src="https://cdn.datatables.net/v/bs/jq-3.7.0/dt-2.0.1/datatables.min.js"></script>
-
 {% endblock %}
+
 {% block body %}
     <h1>Liste des Réclamations</h1>
     
@@ -21,7 +26,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Date</th>
-                <th scope="col" >Description</th>
+                <th scope="col">Description</th>
                 <th scope="col">Type</th>
                 <th scope="col">Priorité</th>
                 <th scope="col">Commentaires</th>
@@ -33,22 +38,27 @@
                 <tr>
                     <th scope="row">{{ reclamation.id }}</th>
                     <td>{{ reclamation.date|date('Y-m-d') }}</td>
-                    <td>
-          {{ reclamation.description}}          
-             
- </td>
+                    <td class="description-column">
+                        {% for paragraph in reclamation.description|split("\n") %}
+                            {{ paragraph }}<br>
+                        {% endfor %}
+                    </td>
                     <td>{{ reclamation.type }}</td>
                     <td>{{ reclamation.priorite }}</td>
-                    <td>{{ reclamation.commentaires }}</td>
+                    <td class="commentaires-column">
+                        {% for paragraph in reclamation.commentaires|split("\n") %}
+                            {{ paragraph }}<br>
+                        {% endfor %}
+                    </td>
                     <td>
-                        <a href="{{ path('reclamation_new', {'id': reclamation.id}) }}" class="btn btn-primary">
-                            <i class="bi bi-pencil-square animate__animated animate__heartBeat"></i> <!-- Icône pour modifier avec l'animation heartBeat -->
+                        <a href="{{ path('back_reclamation_edit', {'id': reclamation.id}) }}" class="btn btn-primary">
+                            <i class="bi bi-pencil-square animate__animated animate__heartBeat"></i>
                         </a>
                         <a href="{{ path('back_reclamation_delete', {'id': reclamation.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation?')">
-                            <i class="bi bi-trash animate__animated animate__bounce"></i> <!-- Icône pour supprimer avec l'animation bounce -->
+                            <i class="bi bi-trash animate__animated animate__bounce"></i>
                         </a>
                         <a href="{{ path('download_reclamation_pdf', {'id': reclamation.id}) }}" class="btn btn-success">
-                            <i class="bi bi-file-pdf animate__animated animate__flash"></i> <!-- Icône pour le PDF avec l'animation flash -->
+                            <i class="bi bi-file-pdf animate__animated animate__flash"></i>
                         </a>
                     </td>
                 </tr>
@@ -59,5 +69,5 @@
     $(document).ready(function() {
         $('#example').DataTable();
     });
-</script>
+    </script>
 {% endblock %}

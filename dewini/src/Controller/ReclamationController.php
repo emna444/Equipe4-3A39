@@ -285,12 +285,20 @@ class ReclamationController extends AbstractController
             throw $this->createNotFoundException('Réclamation introuvable');
         }
 
+        // Récupérer les réponses associées à la réclamation
+        $reponses = $reclamation->getReference();
+
+        // Supprimer les réponses associées
+        foreach ($reponses as $reponse) {
+            $entityManager->remove($reponse);
+        }
+
+        // Supprimer la réclamation elle-même
         $entityManager->remove($reclamation);
         $entityManager->flush();
 
-        return $this->redirectToRoute('back_reclamation_list');
+        return $this->redirectToRoute('reclamation_list');
     }
-    
 
 
 
