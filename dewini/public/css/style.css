@@ -4,12 +4,6 @@
     --light: #EFF5FF;
     --dark: #1B2C51;
 }
-.btn-container {
-    display: flex;
-    justify-content: center; /* Pour centrer horizontalement */
-    align-items: center; /* Pour centrer verticalement */
-    height: 100vh; /* Réglage de la hauteur du conteneur (100% de la hauteur de la fenêtre) */
-}
 
 .fw-medium {
     font-weight: 500 !important;
@@ -82,7 +76,11 @@
     justify-content: center;
     font-weight: normal;
 }
-
+.btn-submit {
+    background-color: red;
+    color: white;
+    /* Autres styles personnalisés selon vos besoins */
+}
 
 /*** Navbar ***/
 .navbar .dropdown-toggle::after {
@@ -522,4 +520,18 @@
 
 .footer .copyright a:hover {
     color: var(--primary);
+}
+
+/* Définition du style pour les messages d'erreur */
+.invalid-feedback {
+    color: red;
+}
+
+form {
+    background-color: transparent;
+    /* Autres styles */
+}
+body {
+    background-image: url('public/assets/images/backgrounds/medicaments-fournitures-medicales-places-bleu_1150-19154.jpg');
+    /* Autres styles */
 }

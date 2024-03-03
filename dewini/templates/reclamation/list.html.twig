@@ -4,15 +4,24 @@
     <center>Liste des Réclamations</center> 
 {% endblock %}
 
+{% block stylesheet %}
+<!-- jQuery -->
+ >
+
+<link href="https://cdn.datatables.net/v/bs/jq-3.7.0/dt-2.0.1/datatables.min.css" rel="stylesheet">
+ 
+<script src="https://cdn.datatables.net/v/bs/jq-3.7.0/dt-2.0.1/datatables.min.js"></script>
+
+{% endblock %}
 {% block body %}
     <h1>Liste des Réclamations</h1>
     
-    <table class="table">
+    <table class="table" id="example">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Date</th>
-                <th scope="col">Description</th>
+                <th scope="col" >Description</th>
                 <th scope="col">Type</th>
                 <th scope="col">Priorité</th>
                 <th scope="col">Commentaires</th>
@@ -24,7 +33,10 @@
                 <tr>
                     <th scope="row">{{ reclamation.id }}</th>
                     <td>{{ reclamation.date|date('Y-m-d') }}</td>
-                    <td>{{ reclamation.description }}</td>
+                    <td>
+          {{ reclamation.description}}          
+             
+ </td>
                     <td>{{ reclamation.type }}</td>
                     <td>{{ reclamation.priorite }}</td>
                     <td>{{ reclamation.commentaires }}</td>
@@ -43,4 +55,9 @@
             {% endfor %}
         </tbody>
     </table>
+    <script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>
 {% endblock %}

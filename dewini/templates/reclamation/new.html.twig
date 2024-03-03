@@ -5,13 +5,12 @@
 {% block css %}
     {{ parent() }}
     <style>
-        body {
-            background-image: url('{{ asset('public/assets/images/backgrounds/rocket.png') }}');
-            /* Autres styles de fond */
+        .form-group {
+            background-color: transparent; /* Rendre les champs transparents */
+            margin-bottom: 15px; /* Espacement entre les champs */
         }
-        form {
-            background-color: rgba(255, 255, 255, 0.5); /* Couleur de fond transparente */
-            /* Autres styles du formulaire */
+        .invalid-feedback {
+            color: red; /* Couleur rouge pour les messages d'erreur */
         }
     </style>
 {% endblock %}
@@ -29,20 +28,22 @@
 
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
-        <div class="form-group">
-            {{ form_label(form.date) }}
-            {{ form_widget(form.date, {'attr': {'class': 'form-control', 'type': 'text', 'placeholder': 'YYMMDD'}}) }}
-            {% if form_errors(form.date) %}
-                <div class="invalid-feedback" style="color: red;">
-                    {{ form_errors(form.date) }}
-                </div>
-            {% endif %}
-        </div>
-        <!-- Ajoutez le reste du formulaire ici -->
-        
-        <div class="text-center">
+        {% for child in form.children %}
+            <div class="form-group">
+                {{ form_label(child) }}
+                {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(child) %}
+                    <div class="invalid-feedback">
+                        {{ form_errors(child) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="form-group text-center mt-3">
             <button type="submit" class="btn btn-primary btn-submit">Ajouter</button>
         </div>
+
         {{ form_end(form) }}
     </div>
 </div>

@@ -291,6 +291,36 @@ class ReclamationController extends AbstractController
         return $this->redirectToRoute('back_reclamation_list');
     }
     
+
+
+
+
+    #[Route('/dashboard', name: 'reclamation_dashboard')]
+    public function dashboard(ReclamationRepository $reclamationRepository): Response
+    {
+        $reclamations = $reclamationRepository->findAll();
+$tabStats=$reclamationRepository->countNbreBYEtat();
+
+$tabValMonth=[];
+ 
+ 
+for ($i=1;$i<13;$i++){
+    $yearMonth= date('Y').'-'.$i;
+    if($i<10){
+        $yearMonth=date('Y').'-0'.$i;
+    }
+   
+    $tabValMonth[]= $reclamationRepository->countNbreBYMonth($yearMonth);
+}
+ 
+        return $this->render('back/dashboard.html.twig', [
+            'reclamations' => $reclamations,
+            'tabStats'=>$tabStats,
+            'tabValMonth'=>$tabValMonth
+        ]);
+    }
+
+
 }
 
 

@@ -1,0 +1,178 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Liste des réclamations{% endblock %}
+{% block stylesheet %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+{% endblock %}
+
+{% block body %}
+
+<h2> Statistique de Reclamations </h2>
+ <div id="container"></div>
+ <hr/>
+    <div id="statsbymonth"></div>
+ <script>
+Highcharts.chart('container', {
+    chart: {
+        type: 'pie'
+    },
+    title: {
+        text: 'Statistique de satisfaction des clients '
+    },
+    tooltip: {
+        valueSuffix: '%'
+    },
+   
+    plotOptions: {
+        series: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: [{
+                enabled: true,
+                distance: 20
+            }, {
+                enabled: true,
+                distance: -40,
+                format: '{point.percentage:.1f}%',
+                style: {
+                    fontSize: '1.2em',
+                    textOutline: 'none',
+                    opacity: 0.7
+                },
+                filter: {
+                    operator: '>',
+                    property: 'percentage',
+                    value: 10
+                }
+            }]
+        }
+    },
+    series: [
+        {
+            name: 'Percentage',
+            colorByPoint: true,
+            data: [
+                {% for stat in tabStats %}
+                {
+                    name: "{{stat['type']}}",
+                    y: {{stat['count']}}
+                },
+{% endfor %}
+                 ]
+        }
+    ]
+});
+
+ 
+ </script>
+ <script>
+// Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+
+// Create the chart
+Highcharts.chart('statsbymonth', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        align: 'left',
+        text: 'Statistique Nombre de reclamations par mois'
+    },
+   
+    accessibility: {
+        announceNewData: {
+            enabled: true
+        }
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'Total percent market share'
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.1f}%'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+    },
+
+    series: [
+        {
+            name: 'Browsers',
+            colorByPoint: true,
+            data: [
+                {
+                    name: 'Janiver',
+                    y: {{tabValMonth[0]}}
+                    
+                },
+                {
+                    name: 'Fevrier',
+                    y: {{tabValMonth[1]}}
+                },
+                {
+                    name: 'Mars',
+                     y: {{tabValMonth[2]}}
+                },
+                {
+                    name: 'Avril',
+                     y: {{tabValMonth[3]}}
+                },
+                {
+                    name: 'Mai',
+                      y: {{tabValMonth[4]}}
+                },
+                {
+                    name: 'Juin',
+                     y: {{tabValMonth[5]}}
+                },
+
+                {
+                    name: 'Juillet',
+                    y: {{tabValMonth[6]}}
+                },
+                  {
+                    name: 'Aout',
+                     y: {{tabValMonth[7]}}
+                },
+                  {
+                    name: 'Septembre',
+                     y: {{tabValMonth[8]}}
+                },
+                  {
+                    name: 'Octobre',
+                     y: {{tabValMonth[9]}}
+                },
+                  {
+                    name: 'Nouvembre',
+                     y: {{tabValMonth[10]}}
+                },
+                  {
+                    name: 'Decembre',
+                     y: {{tabValMonth[11]}}
+                } 
+            ]
+        }
+    ]
+    
+    
+});
+
+ </script>
+{% endblock %}
