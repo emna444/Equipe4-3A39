@@ -97,11 +97,10 @@
     
 
              <a href="{{ path('app_produit') }}" class="nav-item nav-link active">Acceuil</a>
-        <a href="about.html" class="nav-item nav-link">Evenements</a>
+        <a href="{{path('fetchproduit')}}" class="nav-item nav-link">Produits</a>
         <a href="{{path('addD')}}" class="nav-item nav-link">Add Don</a>
         <a href="{{path('show')}}" class="nav-item nav-link">Dons</a>
         <a href="{{path('fetchf')}}" class="nav-item nav-link">Bonus</a>
-        <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Randez-Vous<i class="fa fa-arrow-right ms-3"></i></a>
     </div>
 </nav>
 {% endblock %}

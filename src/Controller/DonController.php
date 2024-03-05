@@ -20,10 +20,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\User;
 use App\Entity\Bonus;
 use Doctrine\ORM\EntityManagerInterface;
-use BaconQrCode\Common\ErrorCorrectionLevel;
-use BaconQrCode\Encoder\Encoder;
-use BaconQrCode\Writer\PngWriter;
-use BaconQrCode\Writer\Writer;
+use Knp\Component\Pager\PaginatorInterface; 
+use Flashy\Notifier\FlashyNotifier; // Import the correct FlashyNotifier class
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
+
+
 
 class DonController extends AbstractController
 {
@@ -83,16 +86,19 @@ public function fetchb(DonsRepository $repo): Response
      }
 
      #[Route('/show', name: 'show')]
-public function show(DonsRepository $repo): Response
+public function show(DonsRepository $repo, Request $req, PaginatorInterface $paginator): Response
 {
-    $result = $repo->findAll();
+    $pagination = $paginator-> paginate(
+        $repo->paginationQuery(),
+        $req->query->get('page', 1),
+        5
+    );
     return $this->render('/don/show.html.twig', [
-        'response' => $result
+        'pagination' => $pagination
     ]);
 }
-
 #[Route('/addD', name: 'addD')]
-public function addD(Request $req, ManagerRegistry $mr): Response
+public function addD(Request $req, ManagerRegistry $mr, SessionInterface $session): Response
 {
     $imageDir = $this->getParameter('image_dir');
     $userRepository = $mr->getRepository(User::class);
@@ -107,17 +113,10 @@ public function addD(Request $req, ManagerRegistry $mr): Response
     $form = $this->createForm(DonsType::class, $d);
     $form->handleRequest($req);
     $bonus = null; // Initialize $bonus variable
-    $qrCodePath = null; 
+
     if ($form->isSubmitted() && $form->isValid()) {
         $this->handleImageUpload($form, $d, $imageDir);
         $data = $form->getData();
-
-        // Generate QR code for the donation ID
-        $qrCodeText = $d->getId();
-        $qrCodePath = $this->generateQrCode($qrCodeText);
-
-        // Set QR code path for the donation
-        $d->setQrCodePath($qrCodePath);
 
         // Increment donation count and check for bonus
         $user->setDonCount($user->getDonCount() + 1);
@@ -126,6 +125,7 @@ public function addD(Request $req, ManagerRegistry $mr): Response
             $bonus = new Bonus();
             $bonus->setMontant(1.0);
             $bonus->setPatient($user);
+            $session->getFlashBag()->add('success', 'You received a bonus.'); // Display success message
         }
 
         $em = $mr->getManager();
@@ -135,36 +135,13 @@ public function addD(Request $req, ManagerRegistry $mr): Response
             $em->persist($bonus);
         }
         $em->flush();
-
-        $this->addFlash(
-            'success',
-            'Votre don a été créé avec succès !'
-        );
-
         return $this->redirectToRoute('fetchd');
     }
 
     return $this->render('/don/form.html.twig', [
         'f' => $form->createView(),
-        'qrCodePath' => $qrCodePath,
     ]);
 }
-
-private function generateQrCode(string $text): string
-{
-    $errorCorrectionLevel = new ErrorCorrectionLevel(ErrorCorrectionLevel::LOW);
-    $encoder = new Encoder($errorCorrectionLevel);
-    $writer = new PngWriter($encoder);
-    $qrCodeImage = $writer->writeString($text);
-
-    // Save the QR code image to a file
-    $qrCodePath = 'public/uploads/qr-code'; // Specify the path where you want to save the QR code image
-    file_put_contents($qrCodePath, $qrCodeImage);
-
-    return $qrCodePath;
-}
-     
-
 
     #[Route('/myDonations', name: 'myDonations')]
     public function myDonations(ManagerRegistry $mr): Response
@@ -215,41 +192,70 @@ private function generateQrCode(string $text): string
     }
 
     #[Route('/detail/{id}', name: 'detail')]
-    public function detail($id, DonsRepository $repo, request $req,  ManagerRegistry $mr, CommentsRepository $commentRepo): Response
+    public function detail($id, DonsRepository $repo, Request $req, ManagerRegistry $mr, CommentsRepository $commentRepo): Response
     {
         $donns = $repo->find($id);
-        $comment = new Comments;
-        $userRepository = $mr->getRepository(User::class);
-        $user = $userRepository->find(123); // Assuming user with ID 123 exists
-       // On génère le formulaire
-       $commentForm = $this->createForm(CommentType::class, $comment);
-       $commentForm->handleRequest($req);
-       // Traitement du formulaire
-       if($commentForm->isSubmitted() && $commentForm->isValid()){
-        $comment->setUser($user);
-        $comment->setDon($donns);
-        $comment->setCreatedAt(new \dateTime);
-           // On  $parentid = $req->request->get('parentid');
-        $parentid = $req->request->get('parentid');
-        if ($parentid) {
-            $parentComment = $commentRepo->find($parentid);
-            if ($parentComment) {
-                $parentComment->addReply($comment); // Add the reply to the parent comment
-                $comment->setParent($parentComment); // Set the parent comment
-            }
-        }
-           $em = $this->getDoctrine()->getManager();
-           $em->persist($comment);
-           $em->flush();
-         }
         if (!$donns) {
             return $this->redirectToRoute('show');
         }
-        return $this->render('don/details.html.twig', ['p' => [$donns],
-        'f' => $commentForm->createView(),
-        'comments' => $commentRepo->findBy(['don' =>$donns ])
-    ]);
+    
+        $comment = new Comments();
+        $userRepository = $mr->getRepository(User::class);
+        $user = $userRepository->find(123); // Assuming user with ID 123 exists
+    
+        // Create comment form
+        $commentForm = $this->createForm(CommentType::class, $comment);
+        $commentForm->handleRequest($req);
+    
+        // Process form submission
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $content = $comment->getContent();
+            $inappropriateWords = [
+                'insulte', 'vulgaire', 'raciste', 'sexiste',
+                'violence', 'haine', 'pornographie', 'drogue',
+                'arnaque', 'spam', 'fraude',
+            ]; 
+    
+            // Check for inappropriate words in content
+            foreach ($inappropriateWords as $word) {
+                if (stripos($content, $word) !== false) {
+                    // Inappropriate word found, show error flash message
+                    $this->addFlash('error', 'La description contient des mots inappropriés.');
+                    return $this->redirectToRoute('detail', ['id' => $id]);
+                }
+            }
+    
+            // Set comment details
+            $comment->setUser($user);
+            $comment->setDon($donns);
+            $comment->setCreatedAt(new \DateTime());
+    
+            // Check for parent comment
+            $parentid = $req->request->get('parentid');
+            if ($parentid) {
+                $parentComment = $commentRepo->find($parentid);
+                if ($parentComment) {
+                    $parentComment->addReply($comment); // Add the reply to the parent comment
+                    $comment->setParent($parentComment); // Set the parent comment
+                }
+            }
+    
+            // Save comment to database
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+    
+            return $this->redirectToRoute('detail', ['id' => $id]);
+        }
+    
+        // Render the detail page with the donation, comment form, and comments
+        return $this->render('don/details.html.twig', [
+            'p' => [$donns],
+            'f' => $commentForm->createView(),
+            'comments' => $commentRepo->findBy(['don' => $donns])
+        ]);
     }
+    
 
     #[Route('/fetchc', name: 'fetchc')]
      public function fetchc(CommentsRepository $commentRepo): Response
@@ -292,10 +298,6 @@ private function deleteCommentAndReplies($comment, $em)
     $em->remove($comment);
     $em->flush();
 }
-
-     
-     
-
 
         public function searchAction(Request $request)
         {
