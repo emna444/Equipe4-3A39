@@ -8,3 +8,7 @@ catch_all:
     controller: App\Controller\EvenementController::notFound
     requirements:
         any: .+
+
+ajax_search:
+    path: /search
+    defaults: { _controller: 'App\Controller\EvenementController::searchAction' }

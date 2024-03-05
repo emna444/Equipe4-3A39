@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Repository\EvenementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -26,13 +27,7 @@ class Evenement
      
 
   
- #[Assert\Range (  min : "today", max : "+10 years",
-       minMessage : "La date doit être à partir d'aujourd'hui",
-       maxMessage : "La date ne peut pas dépasser {{ compared_value }}" )]
-
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+ 
 
     
     #[ORM\Column(length: 255)]
@@ -52,9 +47,42 @@ class Evenement
     #[ORM\OneToMany(targetEntity: Partenaire::class, mappedBy: 'evenement')]
     private Collection $partenaires;
 
+   
+   
+    #[ORM\Column(type:"integer")]
+      private int $likes = 0;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_debut = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_fin = null;
+
+    
+
+    #[ORM\Column(length: 7)]
+    private ?string $background_color = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $text_color = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ImageName = null;
+
+    #[ORM\ManyToOne(inversedBy: 'eventCat')]
+    private ?Categories $cats = null;
+
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'evenement')]
+    private Collection $participations;
+
+    #[ORM\Column]
+    private ?bool $participationsOuvertes = null;
+
     public function __construct()
     {
         $this->partenaires = new ArrayCollection();
+        $this->participations = new ArrayCollection();
+      
     }
 
     public function getId(): ?int
@@ -74,17 +102,6 @@ class Evenement
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): static
-    {
-        $this->date = $date;
-
-        return $this;
-    }
 
     public function getLieu(): ?string
     {
@@ -141,4 +158,151 @@ class Evenement
     public function __toString(){
         return $this ->nom;
     }
+
+//********likes
+    public function getLikes(): int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(?int $likes): Evenement
+    {
+        $this->likes = $likes;
+
+        return $this;
+    }
+
+  
+
+
+    
+   public function getDateDebut(): ?\DateTimeInterface
+   {
+       return $this->date_debut;
+   }
+
+   public function setDateDebut(\DateTimeInterface $date_debut): static
+   {
+       $this->date_debut = $date_debut;
+
+       return $this;
+   }
+
+   public function getDateFin(): ?\DateTimeInterface
+   {
+       return $this->date_fin;
+   }
+
+   public function setDateFin(\DateTimeInterface $date_fin): static
+   {
+       $this->date_fin = $date_fin;
+
+       return $this;
+   }
+
+  
+   public function getBackgroundColor(): ?string
+   {
+       return $this->background_color;
+   }
+
+   public function setBackgroundColor(string $background_color): static
+   {
+       $this->background_color = $background_color;
+
+       return $this;
+   }
+
+   public function getTextColor(): ?string
+   {
+       return $this->text_color;
+   }
+
+   public function setTextColor(string $text_color): static
+   {
+       $this->text_color = $text_color;
+
+       return $this;
+   }
+
+
+   public function getImageName(): ?string
+   {
+       return $this->ImageName;
+   }
+
+   public function setImageName(?string $ImageName): static
+   {
+       $this->ImageName = $ImageName;
+
+       return $this;
+   }
+
+   public function getCats(): ?Categories
+   {
+       return $this->cats;
+   }
+
+   public function setCats(?Categories $cats): static
+   {
+       $this->cats = $cats;
+
+       return $this;
+   }
+
+   /**
+    * @return Collection<int, Participation>
+    */
+   public function getParticipations(): Collection
+   {
+       return $this->participations;
+   }
+
+   public function addParticipation(Participation $participation): static
+   {
+       if (!$this->participations->contains($participation)) {
+           $this->participations->add($participation);
+           $participation->setEvenement($this);
+       }
+
+       return $this;
+   }
+
+   public function removeParticipation(Participation $participation): static
+   {
+       if ($this->participations->removeElement($participation)) {
+           // set the owning side to null (unless already changed)
+           if ($participation->getEvenement() === $this) {
+               $participation->setEvenement(null);
+           }
+       }
+
+       return $this;
+   }
+  
+   
+
+   public function isParticipationsOuvertes(): ?bool
+   {
+       return $this->participationsOuvertes;
+   }
+
+   public function setParticipationsOuvertes(bool $participationsOuvertes): static
+   {
+       $this->participationsOuvertes = $participationsOuvertes;
+
+       return $this;
+   }
+
+   public function isOuvertAuxParticipations(): bool
+    {
+        // Implémentez ici votre logique pour vérifier si les participations sont ouvertes.
+        // Par exemple, vous pourriez vérifier si la date de l'événement est à venir.
+
+        return $this->participationsOuvertes;
+    }
+    
+
+    
+
 }

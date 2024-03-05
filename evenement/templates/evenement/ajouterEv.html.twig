@@ -3,53 +3,70 @@
 {% block body %}
 <div class="container">
     <h1 class="text-center">Ajouter un événement</h1>
-</div>
 
-{# Affichage des éventuelles erreurs du formulaire #}
-{% if form_errors(f) %}
-<div class="alert alert-danger">
-    {{ form_errors(f) }}
-</div>
-{% endif %}
+    {# Affichage des éventuelles erreurs du formulaire #}
+    {% if form_errors(f) %}
+    <div class="alert alert-danger">
+        {% for error in form_errors(f) %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
 
-{# Début du formulaire #}
-{{ form_start(f, {'attr': {'novalidate': 'novalidate'}}) }}
+    {# Début du formulaire #}
+    {{ form_start(f, {'attr': {'novalidate': 'novalidate'}}) }}
 
-{# Champ "Nom" de l'événement #}
-<div class="form-group">
-    {{ form_widget(f.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom événement'}}) }}
-    {% for error in f.nom.vars.errors %}
-    <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
-    {% endfor %}
-</div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(f.nom, 'Nom de l\'événement') }}
+                {{ form_widget(f.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom événement'}}) }}
+                {% for error in f.nom.vars.errors %}
+                <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+                {% endfor %}
+            </div>
 
-<div class="form-group">
-    {{ form_widget(f.date, {'attr': {'class': 'form-control', 'placeholder': 'Date événement'}}) }}
-    {% for error in f.date.vars.errors %}
-    <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
-    {% endfor %}
-</div>
+            <div class="form-group">
+                {{ form_label(f.cats, 'Catégorie') }}
+                {{ form_widget(f.cats, {'attr': {'class': 'form-control', 'placeholder': 'Catégories'}}) }}
+                {% for error in f.cats.vars.errors %}
+                <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+                {% endfor %}
+            </div>
 
-<div class="form-group">
-    {{ form_widget(f.lieu, {'attr': {'class': 'form-control'}}) }}
-    {% for error in f.lieu.vars.errors %}
-    <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
-    {% endfor %}
-</div>
+            {# Ajouter d'autres champs de formulaire ici #}
+        </div>
 
-<div class="form-group">
-    {{ form_widget(f.description, {'attr': {'class': 'form-control', 'placeholder': 'Description'}}) }}
-       {% for error in f.date.vars.errors %}
-    <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
-    {% endfor %}
-</div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(f.date_debut, 'Date de début') }}
+                {{ form_widget(f.date_debut, {'attr': {'class': 'form-control', 'placeholder': 'Date de début'}}) }}
+                {% for error in f.date_debut.vars.errors %}
+                <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+                {% endfor %}
+            </div>
 
-{# Bouton de soumission du formulaire #}
-<div class="btn-container">
-    <button type="submit" class="btn btn-primary">Ajouter</button>
-</div>
+            <div class="form-group">
+                {{ form_label(f.date_fin, 'Date de fin') }}
+                {{ form_widget(f.date_fin, {'attr': {'class': 'form-control', 'placeholder': 'Date de fin'}}) }}
+                {% for error in f.date_fin.vars.errors %}
+                <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+                {% endfor %}
+            </div>
 
-{# Fin du formulaire #}
-{{ form_end(f) }}
+            {# Ajouter d'autres champs de formulaire ici #}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {# Ajouter d'autres champs de formulaire ici #}
+    </div>
+
+    <div class="btn-container">
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+    </div>
+
+    {# Fin du formulaire #}
+    {{ form_end(f) }}
 </div>
 {% endblock %}

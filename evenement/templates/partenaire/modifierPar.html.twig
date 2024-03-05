@@ -20,28 +20,28 @@
     <div class="form-group">
         {{ form_widget(f.nom, {'attr': {'class': 'form-control'}}) }}
         {% for error in f.nom.vars.errors %}
-        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
         {% endfor %}
     </div>
-
+<br>
     <div class="form-group">
         {{ form_widget(f.adresse, {'attr': {'class': 'form-control'}}) }}
         {% for error in f.adresse.vars.errors %}
-        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
         {% endfor %}
     </div>
-
+<br>
  <div class="form-group">
         {{ form_widget(f.contact, {'attr': {'class': 'form-control'}}) }}
         {% for error in f.contact.vars.errors %}
-        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
         {% endfor %}
     </div>
-
+<br>
      <div class="form-group">
         {{ form_widget(f.evenement, {'attr': {'class': 'form-control'}}) }}
         {% for error in f.evenement.vars.errors %}
-        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
         {% endfor %}
     </div>
 

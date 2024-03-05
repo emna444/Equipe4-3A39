@@ -29,7 +29,7 @@ class Partenaire
     #[Assert\NotBlank(message: "Le contact du partenaire ne peut pas être vide")]
     #[Assert\Regex(pattern: "/^\d{8}$/", message: "Le contact du partenaire doit être un numéro de téléphone à 8 chiffres")]
     private ?string $contact = null;
-
+    #relation ManyTOne
     #[ORM\ManyToOne(inversedBy: 'partenaires')]
     private ?Evenement $evenement = null;
 

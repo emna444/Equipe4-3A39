@@ -2,14 +2,18 @@
 <html lang="en">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.4.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+ 
 <head>
     {% block css%}
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DEWINI BACK</title>
-  <link rel="shortcut icon" type="image/png" href="logo.png" style="width: 100px; height: auto"/>
+  <link rel="shortcut icon"  href="logo.png" style="width: 100px; height: auto"/>
   <link rel="stylesheet" href="../assets/css/styles.min.css" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.25.1/dist/apexcharts.min.css">
 </head>
  <style>
     .form-error-message {
@@ -27,6 +31,8 @@
     align-items: center; /* Pour centrer verticalement */
     height: 10vh; /* Réglage de la hauteur du conteneur (100% de la hauteur de la fenêtre) */
 }
+
+
 </style>
     {% endblock %}
 
@@ -102,11 +108,11 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="{{ path('afficherdetail') }}" aria-expanded="false">
+              <a class="sidebar-link" href="{{ path('fetchCatback') }}" aria-expanded="false">
                 <span>
                   <i class="ti ti-cards"></i>
                 </span>
-                <span class="hide-menu">Detail des Commandes</span>
+                <span class="hide-menu">Categories evenements</span>
               </a>
             </li>
             <li class="sidebar-item">
@@ -328,6 +334,8 @@
       </div>
     </div>
   </div>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.4.0/main.min.js" integrity="sha256-oenhI3DRqaPoTMAVBBzQUjOKPEdbdFFtTCNIosGwro0=" crossorigin="anonymous"></script>
       {% block js %}
 
   <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
@@ -337,6 +345,32 @@
   <script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
   <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
   <script src="../assets/js/dashboard.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Inclure les fichiers JavaScript d'ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.25.1/dist/apexcharts.min.js"></script>
+    
+    <script>
+        // Attendre que le DOM soit complètement chargé
+        $(document).ready(function(){
+            // Initialiser ApexCharts
+            var options = {
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                series: [{
+                    name: 'Sales',
+                    data: [30, 40, 45, 50, 49, 60, 70, 91, 125]
+                }],
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        });
+    </script>
       {% endblock  %}
 
 </body>

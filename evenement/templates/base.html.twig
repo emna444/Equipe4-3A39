@@ -6,12 +6,15 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-  <link rel="shortcut icon" type="image/png" href="logo.png" style="width: 100px; height: auto"/>
+    
+  <link rel="shortcut icon" href="logo.png" style="width: 100px; height: auto"/>
+ 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- Favicon -->
     {% block css%}
     <link href="img/favicon.ico" rel="icon">
-
+  
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,16 +29,22 @@
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">   
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <style>
     .form-error-message {
     color: red;
     font-size: 14px;
-}</style>
+}
+
+
+
+
+
+
+</style>
     {% endblock %} 
       <title>DEWINI</title>
 
@@ -46,13 +55,13 @@
         {{ message }}
     </div>
 {% endfor %}
-    <!-- Spinner Start -->
+    {#<!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <!-- Spinner End -->
+    <!-- Spinner End -->#}
 
 
     <!-- Topbar Start -->
@@ -98,26 +107,22 @@
         </div>
     </div>
 </div>
-
-        </a>
+</a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
+
+            
                 <a href="{{ path('app_produit') }}" class="nav-item nav-link active">Acceuil</a>
-                          <div class="nav-item">
-  <a href="{{ path('fetch') }}" class="nav-link">
-    Produits <i class="nav-item nav-link"></i>
-  </a>
-</div>
-                                <a href="{{ path('fetchEVfront') }}" class="nav-item nav-link">Evenements</a>
-
-                <a href="about.html" class="nav-item nav-link">Dons</a>
-   
-                <a href="{{ path('app_panier') }}" class="nav-item nav-link">Panier</a>
-
-            </div>
+                    <div class="nav-item">
+                        <a href="{{ path('fetch') }}" class="nav-link">Produits <i class="nav-item nav-link"></i></a>
+                    </div>
+                        <a href="{{ path('fetchEVfront') }}" class="nav-item nav-link">Evenements</a>
+                        <a href="about.html" class="nav-item nav-link">Dons</a>
+                         <a href="{{ path('app_panier') }}" class="nav-item nav-link">Panier</a>
+             </div>
             <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Randez-Vous<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
@@ -176,6 +181,14 @@
         </div>
     </div>
     {% endblock %} 
+
+
+
+
+
+
+
+
     <!-- Header End -->
 
 
@@ -612,14 +625,14 @@
     {% block js %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="{{ asset('lib/wow/wow.min.js') }}"></script>
+    <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('lib/counterup/counterup.min.js') }}"></script>
+    <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

@@ -5,6 +5,10 @@ namespace App\Repository;
 use App\Entity\Evenement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
+
+
+
 
 /**
  * @extends ServiceEntityRepository<Evenement>
@@ -21,20 +25,18 @@ class EvenementRepository extends ServiceEntityRepository
         parent::__construct($registry, Evenement::class);
     }
 
-//    /**
-//     * @return Evenement[] Returns an array of Evenement objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+
+    public function findEntitiesByString($nom)
+{   $em= $this->getEntityManager();
+    $qb= $em->createQueryBuilder();
+    $qb->select("e")
+    ->from(Evenement::class,"e")
+        ->where('e.nom LIKE :nom')
+        ->setParameter('nom', '%' . $nom . '%');
+        return $qb->getQuery()->getResult();
+}
+   
+
 
 //    public function findOneBySomeField($value): ?Evenement
 //    {
@@ -45,4 +47,8 @@ class EvenementRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+
+
 }
