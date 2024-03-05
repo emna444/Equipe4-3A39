@@ -1,0 +1,53 @@
+{% extends 'base1.html.twig' %}
+
+{% block body %}
+    <h2>Count of Reservations by Medecin</h2>
+    <div id="container"></div>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const chartData = {{ data|raw }};
+
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Count of Reservations by Medecin'
+                },
+                xAxis: {
+                    type: 'category',
+                    title: {
+                        text: 'Medecin'
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Number of Reservations'
+                    },
+                    allowDecimals: false
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: 'Number of reservations: <b>{point.y}</b>'
+                },
+                series: [{
+                    name: 'Reservations',
+                    data: chartData,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y}'
+                    },
+                    colorByPoint: true, // Color each column individually
+                    colors: chartData.map(function(point) {
+                        return point.color; // Use the color property from the data
+                    })
+                }]
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Suivi{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title">Détails du Suivi</h1>
+
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">N°Suivi:</th>
+                                    <td>{{ suivi.id }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Ordonnance:</th>
+                                    <td>{{ suivi.ordonnance }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Nom Prenom medecin </th>
+                                    <td>{{ suivi.medecin.nom ~ ' ' ~ suivi.medecin.prenom   }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Date de derniere rendez-vous  </th>
+                                    <td>{{ suivi.rendezvous.date|date('d/m/Y') }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <a href="{{ path('app_suivi_index') }}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left"></i> Retour à la liste
+                        </a>
+
+<a href="{{ path('generate_paiement_pdf', {'id': suivi.id}) }}" class="btn btn-secondary mr-2" style="background-color: #8a2be2; color: white;">Download PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

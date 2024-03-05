@@ -1,0 +1,20 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Modifier Rendezvous{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Modifier un rendez-vous</h1>
+            </div>
+            <div class="card-body">
+                    {{ include('rendezvous/_form.html.twig', {'button_label': 'Update'}) }}
+
+                    <a href="{{ path('app_rendezvous_index') }}" class="btn btn-primary">
+                             <i class="bi bi-arrow-left"></i> Retourne au liste
+                    </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

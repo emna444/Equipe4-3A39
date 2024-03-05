@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation confirmée{% endblock %}
+
+{% block body %}
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Réservation confirmée !</h4>
+        <p>Votre rendez-vous a été réservé avec succès.</p>
+        <hr>
+        <a href="{{ path('listerdv') }}" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Retour à la liste des rendez-vous
+        </a>
+
+    </div>
+{% endblock %}
+

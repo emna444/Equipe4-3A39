@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordonnance Médicale</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .header {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 36px;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .patient-info {
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .prescription {
+            margin-top: 20px;
+        }
+
+        .medication {
+            margin-top: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            color: #333;
+        }
+
+        .medication:last-child {
+            border-bottom: none;
+        }
+
+        .doctor-info {
+            margin-top: 20px;
+            text-align: right;
+            color: #777;
+        }
+
+        .signature img {
+            width: 150px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .conseil-card {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            border: 1px solid #3498db;
+            color: #333;
+        }
+
+        .conseil {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+         .phone-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: url('phone-icon.png') no-repeat center center;
+            background-size: cover;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+            <img src="https://image.similarpng.com/very-thumbnail/2020/10/Airplane-isolated-on-transparent-background-PNG.png" alt="logo">
+        </div>
+        
+        <br><br> <br>
+                <br>
+        <br>
+        <br>
+
+        <div class="patient-info">
+            <strong>Nom du Patient:</strong> {{ suivi.user.nom ~ ' ' ~ suivi.user.prenom }} <br>
+            <strong>Email :</strong> {{ suivi.user.email }} <br>
+            <strong>Adresse:</strong> {{ suivi.user.ville }} <br>
+        </div>
+
+        <div class="prescription">
+            <h3 style="color: #3498db;">Prescription:</h3>
+            <div class="medication">
+                <strong>Médicament :</strong> {{ suivi.ordonnance }} <br>
+                <strong>Posologie:</strong> 1 comprimé, 2 fois par jour<br>
+            </div>
+            <!-- Ajoutez d'autres médicaments au besoin -->
+        </div>
+<br>
+        <br>
+        
+        <div class="doctor-info">
+            <strong>Médecin:</strong> Dr. {{ suivi.medecin.nom ~ ' ' ~ suivi.medecin.prenom }}<br>
+            <strong>Spécialité:</strong> Médecin {{ suivi.medecin.spacialite }} <br>
+            <strong>Date:</strong> {{ suivi.rendezvous.date|date('d/m/Y') }}
+        </div>
+        <br>
+                <br>
+        <br>
+        <br>
+        <div class="signature">
+            <img src="logo.png" alt="signature" style="width: 90px; height: auto;">
+        </div>
+
+       
+
+
+        <div class="conseil-card">
+            <p class="conseil">
+                <strong>Attention :<br></strong> Prenez vos médicaments conformément aux indications de votre médecin. Respectez les doses prescrites et la durée du traitement. En cas d'effets indésirables ou de questions, n'hésitez pas à contacter votre professionnel de la santé.
+            </p>
+            <p class="conseil">
+                <strong>Numéro d'assistance :</strong> Pour toute assistance supplémentaire, veuillez appeler notre service d'assistance au <strong style="color: #3498db;">29 286 558</strong>.
+            </p>
+        </div>
+
+        
+    </div>
+            <div class="doctor-info">
+
+                <strong>Date:</strong> {{ "now"|date('Y-m-d') }}
+            </div>
+
+</body>
+</html>

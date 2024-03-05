@@ -1,0 +1,58 @@
+
+
+    <div class="container mt-5">
+        <div class="card">
+            
+            <div class="card-body">
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                
+                    <div class="form-group">
+                        <label for="{{ form.status.vars.id }}">Confimation du reservation</label>
+                        {{ form_widget(form.status, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer votre reservation 0 ou 1'}}) }}
+                        {% for error in form.status.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+                
+                <div class="form-group">
+                        <label for="{{ form.description.vars.id }}">Votre description</label>
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Entrer une description... '}}) }}
+                        {% for error in form.description.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+                
+                <div class="form-group">
+                        <label for="{{ form.patient.vars.id }}">Selectionner votre nom et prenom</label>
+                        {{ form_widget(form.patient, {'attr': {'class': 'form-control', 'placeholder': 'Selectionner votre nom et prenom'}}) }}
+                        {% for error in form.patient.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+                
+                <div class="form-group">
+                        <label for="{{ form.medecin.vars.id }}">Selectionner votre nom et prenom</label>
+                        {{ form_widget(form.medecin, {'attr': {'class': 'form-control', 'placeholder': 'Selectionner votre medecin'}}) }}
+                        {% for error in form.medecin.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="{{ form.rendezvous.vars.id }}">Selectionner votre nom et prenom</label>
+                        {{ form_widget(form.rendezvous, {'attr': {'class': 'form-control', 'placeholder': 'Selectionner votre date de rendez-vous'}}) }}
+                        {% for error in form.rendezvous.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> {{ button_label|default('Enregist') }}
+                </button>
+
+                
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>

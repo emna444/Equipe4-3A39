@@ -1,0 +1,22 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Modifier une Réservation{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Modifier une Réservation</h1>
+            </div>
+            <div class="card-body">
+                {{ include('reservation/_form.html.twig', {'button_label': 'Update'}) }}
+
+                <br>
+
+                <a href="{{ path('app_reservation_index') }}" class="btn btn-primary">
+                    <i class="bi bi-arrow-left"></i> Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
