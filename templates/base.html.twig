@@ -11,7 +11,7 @@
 
     <!-- Favicon -->
     {% block css%}
-    <link href="img/favicon.ico" rel="icon">
+    <link href="{{ asset ('logo.png')}}"  rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,23 +21,36 @@
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <style>
         .form-error-message {
             color: red;
             font-size: 14px;
         }
     </style>
+    <style>
+    .btn-lg i.fa-shopping-cart {
+        font-size: 24px; /* Adjust the font size to increase or decrease the icon size */
+    }
+    <style>
+    .d-flex.justify-content-start .btn-lg {
+        margin-right: 200px; /* Increase the margin-right value */
+    }
+</style>
+</style>
     {% endblock %}
 </head>
 
@@ -58,25 +71,32 @@
             <div class="col-lg-7 px-5 text-start">
                 <div class="h-100 d-inline-flex align-items-center py-3 me-4">
                     <small class="fa fa-map-marker-alt text-primary me-2"></small>
-                    <small>123 Street, New York, USA</small>
+                    <small>El Ghazela</small>
                 </div>
                 <div class="h-100 d-inline-flex align-items-center py-3">
                     <small class="far fa-clock text-primary me-2"></small>
-                    <small>Mon - Fri : 09.00 AM - 09.00 PM</small>
+                    <small>7j : 24h</small>
                 </div>
             </div>
             <div class="col-lg-5 px-5 text-end">
                 <div class="h-100 d-inline-flex align-items-center py-3 me-4">
                     <small class="fa fa-phone-alt text-primary me-2"></small>
-                    <small>+012 345 6789</small>
+                    <small>98 556 247</small>
                 </div>
                 <div class="h-100 d-inline-flex align-items-center">
                     <a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" href=""><i class="fab fa-facebook-f"></i></a>
                     <a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" href=""><i class="fab fa-twitter"></i></a>
                     <a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" href=""><i class="fab fa-linkedin-in"></i></a>
                     <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" href=""><i class="fab fa-instagram"></i></a>
+
                     <!-- Bouton de déconnexion -->
                     <a href="{{ path('app_logout') }}" class="btn btn-sm-square rounded-circle bg-white text-primary me-1"><i class="fas fa-sign-out-alt"></i></a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('admin_accueil') }}" class="btn btn-sm-square rounded-circle bg-white text-primary me-1"><i class="fas fa-user"></i>
+                        
+                    </a>
+{% endif %}
+
                 </div>
             </div>
         </div>
@@ -86,46 +106,92 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
-        <a href="{{ path('app_login') }}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-auto mr-3">
-                        <img src="{{ asset('logo.png') }}" alt="Logo DEWINI" style="width: 90px; height: auto;">
-                    </div>
-                    <div class="col">
-                        <h1 class="m-0 text-primary">DEWINI</h1>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="{{ path('app_login') }}" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
-                <div class="nav-item">
-                    <a href="contact.html" class="nav-item nav-link">Produits</a>
-                </div>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
-            </div>
-            <!-- Bouton d'administration avec une icône d'administration -->
-            {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('admin_accueil') }}" class="btn btn-secondary py-2 px-3 d-inline-flex align-items-center justify-content-center">
-                <i class="bi bi-person-fill me-2"></i> <!-- Icône d'administration -->
-                Admin
-            </a>
+<a href="{{ path('app_home') }}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-auto mr-3">
+            <img src="{{ asset('logo.png') }}" alt="Logo DEWINI" style="width: 90px; height: auto;">
+        </div>
+        <div class="col">
+            <h1 class="m-0 text-primary">Dewini</h1>
+        </div>
+    </div>
+</div>
+    </a>
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+            <a href="{{ path('app_home') }}" class="nav-item nav-link active">Acceuil</a>
+            {# <a href="about.html" class="nav-item nav-link">About</a> #}
+
+            <a href="{{ path('fetch') }}" class="nav-item nav-link">Produits</a>
+            <a href="{{ path('fetchEVfront') }}" class="nav-item nav-link">Evenements</a>
+
+            {% if is_granted('ROLE_MEDECIN') %}
+            <a href="{{ path('app_suivi_new')}}" class="nav-item nav-link">Suivi</a>
+            {% elseif is_granted('ROLE_USER') %}
+            <a href="{{ path('listerdv')}}" class="nav-item nav-link">Rendez-vous</a>
             {% endif %}
-            <a href="#" class="btn btn-primary rounded-0 py-2 px-4 d-none d-lg-inline-flex align-items-center justify-content-center">Appointment<i class="fa fa-arrow-right ms-3"></i></a>
+
+
+
+<div class="navbar-nav ml-auto">
+    <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Don
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{{ path('showD') }}">Dons</a>
+            <a class="dropdown-item" href="{{ path('fetchf') }}">Bonus</a>
+            <div class="dropdown-divider"></div> <!-- Optional: adds a divider line -->
+            <a class="dropdown-item" href="{{ path('addD') }}">Add Don</a> <!-- Add Don link -->
+        </div>
+    </div>
+</div>
+<div class="navbar-nav ml-auto">
+    <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Reclamation
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{{ path('reclamation_new') }}">Reclamation</a>
+            <a class="dropdown-item" href="{{ path('reclamation_new') }}">Modifier Reclamation</a>
+            <div class="dropdown-divider"></div> <!-- Optional: adds a divider line -->
+            <a class="dropdown-item" href="{{ path('reponse_list') }}">Voir Réponse</a> <!-- Add Don link -->
+        </div>
+    </div>
+</div>
+
+                        <!-- Bouton d'administration avec une icône d'administration -->
+                        {# <div class="d-flex justify-content-start align-items-center"style="padding-left: 30px;">
+
+    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0"  href=""{{ path('app_panier') }}""><i class="fas fa-shopping-cart fa-2x"></i></a>
+</div> #}
+           <a href="{{ path('app_panier') }}" class="fa-solid fa-cart-shopping fa-flip" style="font-size: 35px; color: bg-dark; margin-right: 30px; margin-top: 19px;--fa-animation-duration: 3s;"></a>
+
+     
+{# <a href="{{ path('app_panier') }}" class="btn btn-primary rounded-circle py-2 px-3 d-none d-lg-inline-flex align-items-center justify-content-center">
+    <i class="fas fa-shopping-cart fa-2x"></i>
+</a> #}
 
         </div>
-    </nav>
+    </div>
+</nav>
+
     <!-- Navbar End -->
 
 
     <!-- Header Start -->
     {% block body %}
+    {% for message in app.flashes('message') %}
+    <div class="alert alert-success">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {{ message }}
+    </div>
+{% endfor %}
     {% if app.user and app.user.isVerified == false %}
 	<div class="alert alert-warning alert-dismissible" role="alert">
 		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -194,10 +260,10 @@
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Address</h5>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <h5 class="text-light mb-4">Addresse</h5>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>El Ghazela</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>98 556 247</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>Dewini@gmail.com</p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-outline-light btn-social rounded-circle" href=""><i class="fab fa-twitter"></i></a>
                         <a class="btn btn-outline-light btn-social rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
@@ -222,27 +288,15 @@
                     <a class="btn btn-link" href="">Support</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Newsletter</h5>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                    <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                    </div>
+                   
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="copyright">
                 <div class="row">
-                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
-                    </div>
-                    <div class="col-md-6 text-center text-md-end">
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                        </br>
-                        Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                    </div>
+                  
+                   
                 </div>
             </div>
         </div>
@@ -259,16 +313,31 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="{{ asset('lib/easing/easing.min.js')}}"></script>
+    <script src="{{ asset('lib/waypoints/waypoints.min.js')}}"></script>
+    <script src="{{ asset('lib/counterup/counterup.min.js')}}"></script>
+    <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js')}}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/moment.min.js')}}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+   <script src="https://kit.fontawesome.com/30f5ae390f.js" crossorigin="anonymous"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="{{ asset('js/main.js')}}"></script>
+    <script>
+    function closeBanner() {
+        var banner = document.querySelector('.band-passante');
+        banner.style.display = 'none';
+    }
+
+
+</script>
+
+<script>
+    function closeBanner() {
+        document.querySelector('.band-passante').style.display = 'none';
+    }
+</script>
     {% endblock %}
 </body>
 

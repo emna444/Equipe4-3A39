@@ -1,0 +1,46 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Détails de la Réservation{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title text-center mb-4">
+                            <i class="fas fa-info-circle"></i> Détails d'une réservation
+                        </h1>
+                        <div class="card">
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col-sm-3">Id réservation:</dt>
+                                    <dd class="col-sm-9">{{ reservation.id }}</dd>
+
+                                    <dt class="col-sm-3">Id rendezvous:</dt>
+                                    <dd class="col-sm-9">{{ reservation.rendezvous.id }}</dd>
+
+                                    <dt class="col-sm-3">CIN patient:</dt>
+                                    <dd class="col-sm-9">{{ reservation.patient.cin }}</dd>
+
+                                    <dt class="col-sm-3">Confirmation de la reservation :</dt>
+                                    <dd class="col-sm-9">
+                                        {% if reservation.status == 1 %}
+                                                 Confirmé
+                                                {% elseif reservation.status == 0 %}
+                                                pas de confirmation
+                                        {% endif %}
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <a href="{{ path('app_reservation_index') }}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left"></i> Retour à la liste
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

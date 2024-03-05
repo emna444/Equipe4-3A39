@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ajouter un rendez-vous</h5>
+
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                    <div class="form-group">
+                        <label for="{{ form.date.vars.id }}">Date</label>
+                        {{ form_widget(form.date, {'attr': {'class': 'form-control', 'placeholder': 'Sélectionnez une date'}}) }}
+                        {% for error in form.date.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.etat.vars.id }}">État</label>
+                        {{ form_widget(form.etat, {'attr': {'class': 'form-control', 'placeholder': 'Saisissez l\'état'}}) }}
+                        {% for error in form.etat.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+
+                    {# Ajoutez d'autres champs du formulaire s'il y en a #}
+
+                    <div class="text-center">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-save"></i> {{ button_label|default('Enregistrer') }}
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

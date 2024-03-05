@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MedecinRepository;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MedecinRepository::class)]
@@ -11,8 +12,8 @@ class Medecin
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name:"med")]
-    private ?int $med = null;
+    #[ORM\Column]
+    private ?int $id = null;
 
     #[ORM\Column]
     private ?int $cin = null;
@@ -30,11 +31,23 @@ class Medecin
     private ?int $telephone = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $specialite = null;
+    private ?string $spacialite = null;
 
-    public function getMed(): ?int
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'medecin')]
+    private Collection $reservations;
+
+    #[ORM\OneToMany(targetEntity: Suivi::class, mappedBy: 'medecin')]
+    private Collection $suivis;
+
+    public function __construct()
     {
-        return $this->med;
+        $this->reservations = new ArrayCollection();
+        $this->suivis = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getCin(): ?int
@@ -97,15 +110,77 @@ class Medecin
         return $this;
     }
 
-    public function getSpecialite(): ?string
+    public function getSpacialite(): ?string
     {
-        return $this->specialite;
+        return $this->spacialite;
     }
 
-    public function setSpecialite(string $specialite): static
+    public function setSpacialite(string $spacialite): static
     {
-        $this->specialite = $specialite;
+        $this->spacialite = $spacialite;
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): static
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setMedecin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): static
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getMedecin() === $this) {
+                $reservation->setMedecin(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Suivi>
+     */
+    public function getSuivis(): Collection
+    {
+        return $this->suivis;
+    }
+
+    public function addSuivi(Suivi $suivi): static
+    {
+        if (!$this->suivis->contains($suivi)) {
+            $this->suivis->add($suivi);
+            $suivi->setMedecin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSuivi(Suivi $suivi): static
+    {
+        if ($this->suivis->removeElement($suivi)) {
+            // set the owning side to null (unless already changed)
+            if ($suivi->getMedecin() === $this) {
+                $suivi->setMedecin(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }

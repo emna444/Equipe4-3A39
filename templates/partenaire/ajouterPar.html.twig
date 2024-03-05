@@ -1,0 +1,66 @@
+ {% extends 'back.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="text-center">Ajouter Partenaire</h1>
+    </div>
+
+    {# Affichage des éventuelles erreurs du formulaire #}
+    {% if form_errors(f) %}
+        <div class="alert alert-danger">
+            {{ form_errors(f) }}
+        </div>
+    {% endif %}
+        
+    {# Début du formulaire #}
+    {{ form_start(f,{'attr':{'novalidate':'novalidate'}}) }}
+        
+    {# Champ "Nom" du partenaire #}
+    <div class="form-group">
+        {{ form_widget(f.nom, {'attr': {'class': 'form-control' ,'placeholder': 'Nom' }}) }}
+        {% for error in f.nom.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <div class="form-group">
+
+        {{ form_widget(f.adresse, {'attr': {'class': 'form-control','placeholder': 'Adresse'}}) }}
+        {% for error in f.adresse.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br> </span>
+        {% endfor %}
+    </div>
+<br>
+
+ <div class="form-group">
+      
+        {{ form_widget(f.contact, {'attr': {'class': 'form-control' ,'placeholder': 'Contact'}}) }}
+        {% for error in f.contact.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+        {% endfor %}
+    </div>
+<br>
+     <div class="form-group">
+        {{ form_widget(f.evenement, {'attr': {'class': 'form-control' , 'placeholder': 'Evènement'}}) }}
+        {% for error in f.evenement.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br> </span>
+        {% endfor %}
+    </div>
+
+     
+
+
+     
+    
+
+    {# Bouton de soumission du formulaire #}
+<div class="btn-container">
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+</div>
+    {# Fin du formulaire #}
+    {{ form_end(f) }}
+</div>
+{% endblock %}

@@ -3,29 +3,130 @@
 {% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
-<div style="display: flex; align-items: center; margin-bottom: 10px;">
-<h1>Liste des utilisateurs</h1>
-    <a href="{{ path('admin_ajouter_utilisateur') }}" class="fa-solid fa-user-plus fa-flip"style="--fa-animation-duration: 3s; margin-left: 760px; font-size: 28px; color: #042041;"></a>
-    
+<style>
+    .search-form {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-outline {
+        position: relative;
+    }
+
+    .search-input {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 8px 12px;
+        width: 300px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .search-input:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .search-label {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #6c757d;
+        transition: top 0.2s, font-size 0.2s;
+    }
+
+    .search-input:focus + .search-label,
+    .search-input:not(:placeholder-shown) + .search-label {
+        top: 5px;
+        font-size: 12px;
+        color: #007bff;
+    }
+
+    .search-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+    }
+
+    .search-button:hover {
+        background-color: #0056b3;
+    }
+
+.sort-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 710px; /* Push buttons to the left */
+}
+
+.sort-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.sort-button:hover {
+    background-color: #0056b3;
+}
+
+</style>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-6">
+            <h1 >Liste des utilisateurs</h1> <!-- Added margin-bottom -->
+        </div>
+        <div class="col-6 text-end">
+            <a href="{{ path('admin_ajouter_utilisateur') }}" class="fa-solid fa-user-plus fa-flip"style="--fa-animation-duration: 3s; font-size: 28px; color: #042041;"></a>
+        </div>
+    </div>
 </div>
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
+
+<div class="container mt-3 search-form">
+    <div class="input-group justify-content-end">
+            <div class="col-6 d-flex justify-content-end">
+            <div class="sort-buttons">
+                <i class="fa-sharp fa-solid fa-arrow-up-wide-short"style="font-size: 28px; color: #042041;" id="sort-asc"> </i>
+                <i class="fa-sharp fa-solid fa-arrow-down-wide-short"style="font-size: 28px; color: #042041;" id="sort-desc"> </i>
+            </div>
+        </div>
+        <div class="form-outline">
+            <input type="text" id="search-input" class="form-control search-input" placeholder=" ">
+            <label class="search-label" for="search-input">Rechercher par nom ou ville</label>
+        </div>
+        <button class="btn btn-primary search-button" type="button">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table id="user-table" class="table table-bordered table-hover">
+        <!-- Your table content here -->
+                    <thead class="table-dark">
                 <tr>
                     <th>ID</th>
                     <th>Email</th>
                     <th>Rôles</th>
                     <th>Nom</th>
                     <th>Prénom</th>
-                    <th>CIN</th>
+                    {# <th>CIN</th> #}
                     <th>Téléphone</th>
                     <th>Ville</th>
+                    <th>Etat</th>
+                    <th>Dons</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for user in user %}
+                {% for user in users %}
                     <tr>
                         <td>{{ user.id }}</td>
                         <td>{{ user.email }}</td>
@@ -33,8 +134,8 @@
                             {% for role in user.roles %}
                                 {% if role == "ROLE_USER" %}
                                     Utilisateur
-                                {% elseif role == "ROLE_EDITOR" %}
-                                    Editeur
+                                {% elseif role == "ROLE_MEDECIN" %}
+                                    Medecin
                                 {% elseif role == "ROLE_ADMIN" %}
                                     Administrateur
                                 {% endif %}
@@ -42,9 +143,18 @@
                         </td>
                         <td>{{ user.nom }}</td>
                         <td>{{ user.prenom }}</td>
-                        <td>{{ user.cin }}</td>
+                        {# <td>{{ user.cin }}</td> #}
                         <td>{{ user.telephone }}</td>
                         <td>{{ user.ville }}</td>
+                        <td>
+                        {% if user.isVerified %}
+                            Verifié
+                        {% else %}
+                            Non verifié
+                        {% endif %}
+                        </td>
+    
+                        <td>{{ user.donCount }}</td>
                         <td>
 <a href="{{ path('admin_modifier_utilisateur', {'id': user.id}) }}" class="fa-solid fa-cog fa-spin" style="font-size: 30px; color: #117A65; margin-right: 5px;"></a>
 <a href="{{ path('admin_supprimer_utilisateur', {'id': user.id}) }}" class="fa-solid fa-trash-can fa-beat-fade"style="--fa-beat-fade-opacity: 0.4; --fa-beat-fade-scale: 1.000; font-size: 30px; color: #CB4335; margin-left: 5px;"></a>
@@ -57,6 +167,100 @@
                     </tr>
                 {% endfor %}
             </tbody>
-        </table>
-    </div>
+    </table>
+</div>
+
+<script>
+    // Récupération des éléments HTML
+    const searchInput = document.getElementById('search-input');
+    const searchLabel = document.querySelector('.search-label');
+    const userTable = document.getElementById('user-table');
+    const searchButton = document.querySelector('.search-button');
+    const sortAscButton = document.getElementById('sort-asc');
+    const sortDescButton = document.getElementById('sort-desc');
+
+    // Écouteur d'événement sur le bouton de recherche
+    searchButton.addEventListener('click', () => {
+        searchInput.focus(); // Mettre en focus sur le champ de recherche lorsque le bouton est cliqué
+    });
+
+    // Écouteur d'événement sur le champ de recherche pour le focus
+    searchInput.addEventListener('focus', () => {
+        searchLabel.classList.add('focused');
+    });
+
+    // Écouteur d'événement sur le champ de recherche pour le blur
+    searchInput.addEventListener('blur', () => {
+        if (!searchInput.value.trim()) {
+            searchLabel.classList.remove('focused');
+        }
+    });
+
+    // Écouteur d'événement sur le champ de recherche pour la recherche en temps réel
+    searchInput.addEventListener('input', function () {
+        const filter = searchInput.value.toLowerCase(); // Récupération de la valeur saisie et conversion en minuscules
+        const rows = userTable.getElementsByTagName('tr'); // Récupération de toutes les lignes du tableau
+
+        // Parcours de toutes les lignes du tableau sauf l'en-tête
+        for (let i = 0; i < rows.length; i++) {
+            const nameColumn = rows[i].getElementsByTagName('td')[3]; // Récupération de la colonne 'Nom'
+            const cityColumn = rows[i].getElementsByTagName('td')[6]; // Récupération de la colonne 'Ville'
+
+            // Si la valeur de recherche est présente dans le nom ou la ville, on affiche la ligne, sinon on la cache
+            if (nameColumn && cityColumn) {
+                const name = nameColumn.textContent || nameColumn.innerText;
+                const city = cityColumn.textContent || cityColumn.innerText;
+
+                if (name.toLowerCase().indexOf(filter) > -1 || city.toLowerCase().indexOf(filter) > -1) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+    });
+
+    // Écouteur d'événement sur le bouton de tri ascendant
+    sortAscButton.addEventListener('click', () => {
+        sortRows(true); // Tri ascendant
+    });
+
+    // Écouteur d'événement sur le bouton de tri descendant
+    sortDescButton.addEventListener('click', () => {
+        sortRows(false); // Tri descendant
+    });
+
+    // Fonction de tri des lignes du tableau
+    function sortRows(ascending) {
+        const rows = Array.from(userTable.querySelectorAll('tbody tr'));
+
+        rows.sort((rowA, rowB) => {
+            const nameA = rowA.cells[3].textContent.trim().toLowerCase();
+            const nameB = rowB.cells[3].textContent.trim().toLowerCase();
+            const surnameA = rowA.cells[4].textContent.trim().toLowerCase();
+            const surnameB = rowB.cells[4].textContent.trim().toLowerCase();
+
+            if (nameA === nameB) {
+                // If names are equal, sort by surname
+                if (ascending) {
+                    return surnameA.localeCompare(surnameB);
+                } else {
+                    return surnameB.localeCompare(surnameA);
+                }
+            } else {
+                // Otherwise, sort by name
+                if (ascending) {
+                    return nameA.localeCompare(nameB);
+                } else {
+                    return nameB.localeCompare(nameA);
+                }
+            }
+        });
+
+        // Reorder rows in the table
+        const tbody = userTable.querySelector('tbody');
+        rows.forEach(row => tbody.appendChild(row));
+    }
+</script>
+
 {% endblock %}

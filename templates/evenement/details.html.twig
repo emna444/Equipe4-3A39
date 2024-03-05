@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% if evenement.partenaires is not empty %}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <img class="card-img-top" src="{{ asset('uploads/' ~ evenement.ImageName) }}" alt="{{ evenement.nom }}">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">{{ evenement.nom }}</h2>
+                        <hr>
+                        <p class="card-text"><strong>Catégorie:</strong> {{ evenement.cats }}</p>
+                        <p class="card-text"><strong>Date de début:</strong> {{ evenement.getDateDebut()|date('Y-m-d') }}</p>
+                        <p class="card-text"><strong>Date de fin:</strong> {{ evenement.getDateFin()|date('Y-m-d') }}</p>
+                        <p class="card-text"><strong>Lieu:</strong> {{ evenement.lieu }}</p>
+                        <p class="card-text"><strong>Description:</strong>{{ evenement.description }}</p>
+                        <p class="card-text"><strong>Partenaires:</strong></p>
+                        <ul class="list-unstyled">
+                            {% for partenaire in evenement.partenaires %}
+                                <li>{{ partenaire.nom }}</li>
+                            {% endfor %}
+                        </ul>
+                       <div class="text-right mt-4">
+    <button onclick="likeEvent({{ evenement.id }})" class="btn btn-outline-danger mr-2">
+        <i class="fa fa-heart"></i> Like
+    </button>
+    <span id="likesCount{{ evenement.id }}" class="mr-2">{{ evenement.likes }}</span> 
+    
+    <button onclick="dislikeEvent({{ evenement.id }})" class="btn btn-outline-secondary ml-2">
+        <i class="fas fa-thumbs-down"></i> Dislike
+    </button>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+function likeEvent(eventId) {
+    $.ajax({
+        url: '/likeEvent/' + eventId,
+        type: 'GET',
+        success: function(data) {
+            $('#likesCount' + eventId).text(data.likes);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+}
+
+
+</script>
+{% endblock %}

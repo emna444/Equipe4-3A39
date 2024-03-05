@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Réclamation{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <style>
+        .form-group {
+            background-color: transparent; /* Rendre les champs transparents */
+            margin-bottom: 15px; /* Espacement entre les champs */
+        }
+        .invalid-feedback {
+            color: red; /* Couleur rouge pour les messages d'erreur */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1 class="text-center">Ajouter une Réclamation</h1>
+
+        {% if app.flashes('success_message') %}
+            <div class="alert alert-success">
+                {{ app.flashes('success_message')[0] }}
+            </div>
+        {% endif %}
+
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        {% for child in form.children %}
+            <div class="form-group">
+                {{ form_label(child) }}
+                {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(child) %}
+                    <div class="invalid-feedback">
+                        {{ form_errors(child) }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="form-group text-center mt-3">
+            <button type="submit" class="btn btn-primary btn-submit">Ajouter</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}

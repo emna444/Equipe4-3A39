@@ -1,0 +1,459 @@
+{% extends 'base.html.twig' %}
+  {% block css%}
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Roboto:wght@500;700;900&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<style>
+       .form-error-message {
+    color: red;
+    font-size: 14px;
+
+}
+.custom-input {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    transition: border-color 0.3s ease-in-out;
+}.product-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FF0000; /* Couleur du texte du prix */
+    margin-bottom: 15px;
+}
+
+.custom-input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+    .form-error-message {
+    color: red;
+    font-size: 14px;
+}.product-img {
+    width: 100%;
+    height: 300px; /* Vous pouvez ajuster cette valeur selon vos besoins */
+    object-fit: cover; /* Assure que l'image couvre complètement le conteneur tout en conservant ses proportions */
+}
+.fa-star {
+    color: #cccccc; /* Couleur de base des étoiles non sélectionnées */
+}
+
+.checked {
+    color: orange; /* Couleur des étoiles sélectionnées */
+}
+
+/* CSS pour styliser les cartes d'avis */
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 16px;
+}
+.band-passante {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    padding: 20px;
+    width: 100%; /* Largeur de la bande passante */
+    font-size: 18px;
+    font-family: 'Helvetica Neue', sans-serif;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+    animation: bande-passante 5s linear; /* Durée de l'animation ajustée à 5 secondes */
+}
+.band-passante.hidden {
+    display: none; /* Masquer la bande passante */
+}
+@keyframes bande-passante {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+.star-rating {
+    font-size: 24px;
+    color: #cccccc; /* Couleur de base des étoiles */
+}
+
+.star-rating .fa-star {
+    cursor: pointer;
+}
+
+.star-rating .fa-star.checked,
+.star-rating .fa-star.hover {
+    color: orange; /* Couleur des étoiles sélectionnées et survolées */
+}
+.product-card .card-img-top {
+    object-fit: contain; /* Ajuste la taille de l'image tout en conservant ses proportions */
+    max-width: 100%; /* Assure que l'image ne dépasse pas la largeur de son conteneur */
+    max-height: 350px; /* Ajustez la hauteur maximale selon vos besoins */
+    margin: 0 auto; /* Centre l'image horizontalement */
+}
+.custom-select-wrapper {
+    position: relative;
+}
+
+.custom-select-wrapper .custom-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 32px; /* Ajoutez de l'espace pour l'icône */
+    background-color: #f8f9fa; /* Couleur de fond */
+    border: 1px solid #ced4da; /* Bordure */
+    border-radius: 5px; /* Coins arrondis */
+}
+
+.select-arrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.btn-primary {
+    background-color: #007bff; /* Couleur de fond */
+    border-color: #007bff; /* Couleur de la bordure */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Couleur de fond au survol */
+    border-color: #0056b3; /* Couleur de la bordure au survol */
+}
+/* Container de la pagination */
+.container-pagination {
+    margin-top: 20px;
+}
+
+/* Liste des pages */
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+/* Éléments de la pagination */
+.pagination li {
+    list-style: none;
+    margin: 0 5px;
+}
+
+/* Lien de la page active */
+.pagination .active a {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    cursor: default;
+}
+
+/* Liens de pagination */
+.pagination a {
+    color: #007bff;
+    text-decoration: none;
+    border: 1px solid #007bff;
+    padding: 5px 10px;
+}
+
+/* Lien précédent et suivant */
+.pagination .prev,
+.pagination .next {
+    font-weight: bold;
+}
+.product-of-the-month {
+    font-size: 28px; /* Taille de la police */
+    font-weight: bold; /* Gras */
+    color:#FF0000; /* Couleur rouge */
+}
+.close-btn-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 9999; /* Assure que la croix est au-dessus du contenu */
+}
+
+.close-btn {
+    font-size: 20px;
+    color: #888;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
+        <!-- Votre code pour le navbar ici -->
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Formulaire de recherche -->
+    <div class="container mt-3">
+        <form action="{{ path('recherche') }}" method="get" class="mb-3">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Rechercher par nom" name="q">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fas fa-search"></i> <!-- icône de recherche -->
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+   <div class="container mt-3 d-flex justify-content-between">
+    <!-- Formulaire de tri -->
+    <form action="{{ path('tri') }}" method="GET" class="form-inline custom-form">
+    <div class="input-group">
+        <select name="tri" id="tri" class="custom-select" style="margin-right: 10px;">
+            <option value="nom">Trier par nom</option>
+            <option value="prix">Trier par prix</option>
+        </select>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-sort"></i> Trier
+            </button>
+        </div>
+    </div>
+</form>
+
+
+    <!-- Choix de la grille -->
+    <div class="btn-group" role="group" aria-label="Choix de la grille">
+        <button type="button" class="btn btn-outline-primary grid-btn" data-cols="2">
+            <i class="fas fa-th-large"></i> 2 par ligne
+        </button>
+        <button type="button" class="btn btn-outline-primary grid-btn" data-cols="3">
+            <i class="fas fa-th"></i> 3 par ligne
+        </button>
+    </div>
+</div>
+
+
+    {# Champs de saisie pour les prix min et max #}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                <label for="prixMin" class="input-group-text"><i class="fas fa-dollar-sign"></i></label>
+                <input type="number" id="prixMin" name="prixMin" min="0" class="form-control custom-input" placeholder="Prix Min">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <label for="prixMax" class="input-group-text"><i class="fas fa-dollar-sign"></i></label>
+                <input type="number" id="prixMax" name="prixMax" min="0" class="form-control custom-input" placeholder="Prix Max">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="band-passante">
+    {% if meilleurProduit is not null %}
+        <div class="close-btn-container">
+            <button class="close-btn" onclick="closeBanner()">×</button>
+        </div>
+        <div class="band-content">
+            <div class="card">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{ asset('uploads/' ~ meilleurProduit.ImageName) }}" class="card-img" alt="{{ meilleurProduit.nom }}" style="width: 100%; max-width: 300px; height: auto;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="product-of-the-month">Élu produit du mois</p>
+                            <h3 class="product-name card-title">Produit du mois : {{ meilleurProduit.nom }}</h3>
+<p class="product-rating card-text" style="color: green; font-weight: bold;">Moyenne des notes : {{ moyenneMax }}</p>
+                            <p class="product-price card-text">Prix : {{ meilleurProduit.prix }} TND</p>
+                            <a href="{{ path('addpanier', {'id': meilleurProduit.id}) }}" class="btn btn-success btn-add-to-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                Ajouter au panier
+                            </a>
+                            <a href="{{ path('produitdetail', {'id': meilleurProduit.id}) }}" class="btn btn-primary">
+                                <i class="fas fa-info-circle"></i> Voir détails
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>Aucun meilleur produit trouvé.</p>
+    {% endif %}
+</div>
+
+    <!-- Grid de produits -->
+   <div class="container mt-5">
+    <div class="row" id="gridProductsRow">
+        {% for p in response %}
+            <div class="col-md-4 mb-4 product-card">
+                <div class="card h-100">
+                    <div class="card h-100 zoom-on-hover">
+                        <img class="card-img-top product-img" src="{{ asset('uploads/' ~ p.ImageName) }}" alt="{{ p.nom }}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ p.nom }}</h5>
+                        <p class="card-text">{{ p.prix }} DT</p>
+                           <a href="{{ path('addpanier', {'id': p.id}) }}" class="btn btn-danger">
+                                <i class="fas fa-shopping-cart"></i> Ajouter au panier
+                            </a>
+<a href="{{ path('produitdetail', {'id': p.id}) }}" class="btn btn-primary">
+    <i class="fas fa-info-circle"></i> <!-- icône d'information -->
+    Voir détails
+</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- Pagination -->
+<div class="container-pagination">
+    {{ knp_pagination_render(response) }}
+</div>
+    <!-- Footer -->
+    <footer>
+        <!-- Votre code pour le footer ici -->
+    </footer>
+
+    <!-- Script JavaScript pour la gestion de la grille -->
+    <!-- Script JavaScript pour la gestion de la grille -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gridBtns = document.querySelectorAll('.grid-btn');
+
+            gridBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const cols = this.getAttribute('data-cols');
+                    const productCards = document.querySelectorAll('.product-card');
+                    
+                    // Réinitialiser les classes de la grille
+                    productCards.forEach(card => {
+                        card.classList.remove('col-md-4', 'col-md-6');
+                        card.classList.add('col-md-' + (12 / parseInt(cols)));
+                    });
+                });
+            });
+        });
+   </script>
+
+    <script>
+     document.addEventListener('DOMContentLoaded', function() {
+        const prixMinInput = document.getElementById('prixMin');
+        const prixMaxInput = document.getElementById('prixMax');
+
+        prixMinInput.addEventListener('input', filtrerProduits);
+        prixMaxInput.addEventListener('input', filtrerProduits);
+    });
+
+function filtrerProduits() {
+    const prixMinInput = document.getElementById('prixMin');
+    const prixMaxInput = document.getElementById('prixMax');
+    const gridProduitsContainer = document.getElementById('gridProductsRow'); // Modifier l'ID ici
+
+    const prixMin = prixMinInput.value;
+    const prixMax = prixMaxInput.value;
+
+fetch(`/filtrer-produits-par-prix?prixMin=${prixMin}&prixMax=${prixMax}`)
+        .then(response => response.json())
+        .then(data => {
+            // Efface les produits précédents
+            gridProduitsContainer.innerHTML = '';
+
+            // Ajoute les nouveaux produits filtrés après les produits existants
+            data.forEach(produit => {
+                gridProduitsContainer.innerHTML += `
+                    <div class="col-md-4 mb-4 product-card">
+                        <div class="card h-100">
+                            <div class="card h-100 zoom-on-hover">
+                                <img class="card-img-top product-img" src="uploads/${produit.image}" alt="${produit.nom}">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${produit.nom}</h5>
+                                <p class="card-text">${produit.prix} DT</p>
+                                <a href="/panier/add/${produit.id}" class="btn btn-danger">
+                                    <i class="fas fa-shopping-cart"></i> Ajouter au panier
+                                </a>
+<a href="/show${produit.id}" class="btn btn-primary">    <i class="fas fa-info-circle"></i> <!-- icône d'information -->
+    Voir détails
+</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        })
+        .catch(error => {
+            console.error('Une erreur s\'est produite :', error);
+        });
+}
+// JavaScript pour gérer les clics sur les boutons Ajouter au panier et Voir détails
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('add-to-cart')) {
+        const productId = event.target.dataset.id;
+        const addToCartUrl = "{{ path('addpanier', {'id': 'PRODUCT_ID'}) }}".replace('PRODUCT_ID', productId);
+        window.location.href = addToCartUrl;
+    } else if (event.target.classList.contains('view-details')) {
+        const productId = event.target.dataset.id;
+        const viewDetailsUrl = "{{ path('produitdetail', {'id': 'PRODUCT_ID'}) }}".replace('PRODUCT_ID', productId);
+        window.location.href = viewDetailsUrl;
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    var bandPassante = document.getElementById('band-passante');
+
+    // Masquer la bande passante après 5 secondes
+    setTimeout(function() {
+        bandPassante.classList.add('hidden');
+    }, 5000); // 5000 millisecondes = 5 secondes
+});
+
+</script>
+{% endblock %}

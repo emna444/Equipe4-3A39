@@ -1,0 +1,52 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4">Liste des Commentaires</h1>
+        <h2>Comments</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Content</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in response %}
+                <tr>
+                    <td>{{ comment.content }}</td>
+                    <td>
+                        <a href="{{ path('removeC', {'id': comment.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Replies</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Parent Comment</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in response %}
+                {% for reply in comment.replies %}
+                <tr>
+                    <td>{{ comment.content }}</td>
+                    <td>{{ reply.content }}</td>
+                    <td>
+                        <a href="{{ path('removeC', {'id': reply.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

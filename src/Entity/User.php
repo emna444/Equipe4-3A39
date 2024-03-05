@@ -9,6 +9,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -72,7 +74,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $resetToken;
 
-    
+    #[ORM\Column]
+    private ?int $don_count = null;
+
+    public function __construct()
+    {
+        $this->bonuses = new ArrayCollection();
+        $this->dons = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -249,4 +259,106 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
     
+   /**
+     * @return Collection<int, Bonus>
+     */
+    public function getBonuses(): Collection
+    {
+        return $this->bonuses;
+    }
+
+    public function addBonus(Bonus $bonus): static
+    {
+        if (!$this->bonuses->contains($bonus)) {
+            $this->bonuses->add($bonus);
+            $bonus->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBonus(Bonus $bonus): static
+    {
+        if ($this->bonuses->removeElement($bonus)) {
+            // set the owning side to null (unless already changed)
+            if ($bonus->getPatient() === $this) {
+                $bonus->setPatient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dons>
+     */
+    public function getDons(): Collection
+    {
+        return $this->dons;
+    }
+
+    public function addDon(Dons $don): static
+    {
+        if (!$this->dons->contains($don)) {
+            $this->dons->add($don);
+            $don->setUserP($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDon(Dons $don): static
+    {
+        if ($this->dons->removeElement($don)) {
+            // set the owning side to null (unless already changed)
+            if ($don->getUserP() === $this) {
+                $don->setUserP(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDonCount(): ?int
+    {
+        return $this->don_count;
+    }
+
+    public function setDonCount(int $don_count): static
+    {
+        $this->don_count = $don_count;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

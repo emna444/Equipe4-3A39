@@ -1,0 +1,28 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4">Liste des Bonus</h1>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bonus in response %}
+                <tr>
+                    <td>{{ bonus.montant }}</td>
+                    <td>
+                        <a href="{{ path('admin_editb', {'id': bonus.id}) }}" class="btn btn-primary btn-sm">Modifier</a>
+                        <a href="{{ path('admin_removeb', {'id': bonus.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ path('admin_addb') }}" class="btn btn-success">Ajouter</a>
+    </div>
+</div>
+{% endblock %}

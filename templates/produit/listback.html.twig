@@ -1,0 +1,120 @@
+{% extends 'back.html.twig' %}
+  {% block css %}
+    <style>
+        .form-error-message {
+            color: red;
+            font-size: 14px;
+        }
+
+        .left-sidebar {
+            background-color: #e6f2ff; /* Light blue color */
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center; /* Pour centrer horizontalement */
+            align-items: center; /* Pour centrer verticalement */
+            height: 10vh; /* Réglage de la hauteur du conteneur (100% de la hauteur de la fenêtre) */
+        }
+
+        .table-row:hover {
+            background-color: #e6f2ff; /* Couleur de fond au survol */
+        }
+
+        .custom-card {
+            background-color: #e6f2ff; /* Couleur de fond personnalisée */
+            border: 1px solid #ced4da; /* Bordure personnalisée */
+            border-radius: 10px; /* Coins arrondis */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+        }
+
+        .zoom-on-hover img {
+            transition: transform 0.3s ease;
+        }
+
+        .zoom-on-hover:hover img {
+            transform: scale(1.1);
+        }
+
+        .moyenne {
+            display: flex;
+            align-items: center;
+        }
+
+        .moyenne span {
+            margin-right: 5px;
+            font-weight: bold;
+        }
+
+        .moyenne .star {
+            color: #ffc107; /* Couleur jaune */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
+        <!-- Votre code pour le navbar ici -->
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Tableau de produits -->
+    <div class="container mt-5">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>NOM</th>
+                <th>PRIX</th>
+                <th>IMAGE</th>
+                <th>MOYENNE D AVIS</th>
+                <th>ACTIONS</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for p in response %}
+                <tr class="table-row">
+                    <td>{{ p.nom }}</td>
+                    <td>{{ p.prix }} DT</td>
+                    <td>
+                        <div class="zoom-on-hover">
+                            <img class="img-thumbnail" src="{{ asset('uploads/' ~ p.ImageName) }}"
+                                 style="max-width: 180px; max-height: 180px;" alt="{{ p.nom }}">
+                        </div>
+                    </td>
+                  
+                    <td>
+                        {% if p.avis is not empty %}
+                            {% set totalNotes = 0 %}
+                            {% for avis in p.avis %}
+                                {% set totalNotes = totalNotes + avis.note %}
+                            {% endfor %}
+                            {% set moyenne = totalNotes / p.avis|length %}
+                            <div class="moyenne">
+                                {# <span>{{ moyenne|round(1) }}</span> #}
+                                {% for i in 1..5 %}
+                                    {% if moyenne >= i %}
+                                        <i class="fas fa-star star"></i>
+                                    {% else %}
+                                        <i class="far fa-star star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            Pas encore d'avis
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_modif', {'id': p.id}) }}" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+                        <a href="{{ path('admin_deletep', {'id': p.id}) }}" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i> Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

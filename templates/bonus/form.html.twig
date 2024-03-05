@@ -1,0 +1,36 @@
+{% extends 'back.html.twig' %}
+{% block body %}
+
+<div class="container">
+        <h1 class="text-center">Ajouter un bonus</h1>
+    </div>
+
+  
+
+{{ form_start(f,{'attr':{'novalidate':'novalidate'}}) }}
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        {{ form_label(f.montant) }}
+                        {{ form_widget(f.montant, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error-message">
+                            {{ form_errors(f.montant) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body text-center">
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_end(f) }}
+
+{% endblock %}

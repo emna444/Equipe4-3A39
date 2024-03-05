@@ -1,0 +1,47 @@
+<div class="card">
+    <div class="card-body d-flex align-items-center justify-content-center">
+        <h1 class="card-title"></h1>
+
+        <div class="w-75"> <!-- Utilisation de la classe w-75 pour définir la largeur du formulaire -->
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+             <div class="form-group">
+                        <label for="{{ form.user.vars.id }}">Selectionner votre nom et prenom</label>
+                        {{ form_widget(form.user, {'attr': {'class': 'form-control', 'placeholder': 'Selectionner votre nom et prenom'}}) }}
+                        {% for error in form.user.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+                
+                <div class="form-group">
+                        <label for="{{ form.medecin.vars.id }}">Selectionner votre nom et prenom</label>
+                        {{ form_widget(form.medecin, {'attr': {'class': 'form-control', 'placeholder': 'Selectionner votre medecin'}}) }}
+                        {% for error in form.medecin.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="{{ form.rendezvous.vars.id }}">Selectionner votre nom et prenom</label>
+                        {{ form_widget(form.rendezvous, {'attr': {'class': 'form-control', 'placeholder': 'Selectionner votre date de rendez-vous'}}) }}
+                        {% for error in form.rendezvous.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.ordonnance.vars.id }}">Votre ordonnance</label>
+                        {{ form_widget(form.ordonnance, {'attr': {'class': 'form-control', 'placeholder': 'Entrer une ordonnance... '}}) }}
+                        {% for error in form.ordonnance.vars.errors %}
+                            <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+                        {% endfor %}
+                    </div>
+
+            <br>
+
+            <button type="submit" class="btn btn-success">
+                <i class="far fa-save"></i> {{ button_label|default('Enregistrer') }}
+            </button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

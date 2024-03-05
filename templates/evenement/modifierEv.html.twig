@@ -1,0 +1,94 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center">Modifier un événement</h1>
+
+    {# Affichage des éventuelles erreurs du formulaire #}
+    {% if form_errors(f) %}
+    <div class="alert alert-danger">
+        {{ form_errors(f) }}
+    </div>
+    {% endif %}
+
+    {# Début du formulaire #}
+    {{ form_start(f, {'attr': {'novalidate': 'novalidate'}}) }}
+
+    {# Champ "Nom" de l'événement #}
+    <div class="form-group">
+        {{ form_widget(f.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom événement'}}) }}
+        {% for error in f.nom.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+    </div>
+
+
+<br>
+<div class="form-group">
+        {{ form_widget(f.cats, {'attr': {'class': 'form-control' , 'placeholder': 'categories'}}) }}
+        {% for error in f.cats.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br> </span>
+        {% endfor %}
+    </div>
+
+<br>
+
+    <div class="form-group">
+        {{ form_widget(f.date_debut, {'attr': {'class': 'form-control', 'placeholder': 'Date'}}) }}
+        {% for error in f.date_debut.vars.errors %}
+         <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+    </div>
+<br>
+    <div class="form-group">
+        {{ form_widget(f.date_fin, {'attr': {'class': 'form-control', 'placeholder': 'Date'}}) }}
+        {% for error in f.date_fin.vars.errors %}
+         <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+    </div>
+<br>
+    <div class="form-group">
+        {{ form_widget(f.lieu, {'attr': {'class': 'form-control', 'placeholder': 'Lieu'}}) }}
+         {% for error in f.lieu.vars.errors %}
+           <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+          {% endfor %}
+    </div>
+<br>
+    <div class="form-group">
+        {{ form_label(f.description) }}
+        {{ form_widget(f.description, {'attr': {'class': 'form-control'}}) }}
+        {% for error in f.description.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+        {% endfor %}
+    </div>
+<br>
+     <div class="form-group">
+                        {{ form_label(f.photo,'Sélectionner une photo') }}
+                        {{ form_widget(f.photo, {'attr': {'class': 'form-control' ~ (form_errors(f.photo)|length > 0 ? ' is-invalid' : '')}}) }}
+                    </div>
+
+<div class="form-group">
+    {{ form_widget(f.background_color, {'attr': {'class': 'form-control'}}) }}
+       {% for error in f.background_color.vars.errors %}
+    <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+    {% endfor %}
+</div>
+    <div class="form-group">
+    {{ form_widget(f.text_color, {'attr': {'class': 'form-control'}}) }}
+       {% for error in f.text_color.vars.errors %}
+    <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }}</span>
+    {% endfor %}
+</div>
+
+
+
+
+    {# Bouton de soumission du formulaire #}
+    <div class="btn-container">
+        <button type="submit" class="btn btn-primary">Modifier</button>
+    </div>
+
+    {# Fin du formulaire #}
+    {{ form_end(f) }}
+</div>
+{% endblock %}

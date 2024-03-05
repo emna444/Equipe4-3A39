@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+.btn-details {
+    background-color: navy;
+    color: white;
+    border-color: navy;
+}
+
+.btn-details:hover {
+    background-color: darkblue;
+    border-color: darkblue;
+}
+</style>
+<div class="container">
+    <h1 class="text-center">Tous les Evénements</h1>
+</div>
+
+<!-- Barre de recherche -->
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" id="searchInput" class="form-control" placeholder="Rechercher...">
+        </div>
+        <div class="col-md-6 text-right">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-dark view-mode" data-mode="byThree">
+                    <i class="fa fa-th"></i>
+                </button>
+                <button type="button" class="btn btn-dark view-mode" data-mode="bySix">
+                    <i class="fa fa-th-large"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- événements -->
+<div class="container mt-5">
+    <div class="row event-list">
+        {% for ev in response %}
+            {% if ev.partenaires is not empty %}
+                <div class="col-md-4 mb-4 ev-card" data-nom="{{ ev.nom|lower }}">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <img class="card-img-top mb-3" src="{{ asset('uploads/' ~ ev.ImageName) }}" alt="{{ ev.nom }}">
+                            <h5 class="card-title" style="border: 1px solid #ccc; padding: 10px;">{{ ev.nom }}</h5>
+ <div class="d-flex justify-content-between align-items-center">
+    <p class="card-text">
+        <span id="likesCount{{ ev.id }}">{{ ev.likes }}</span>
+        <button onclick="likeEvent({{ ev.id }})" class="btn btn-outline-danger">
+            <i class="fa fa-heart"></i> Like
+        </button>
+    </p>
+    <a href="{{ path('event_details', {'id': ev.id}) }}" class="btn btn-primary" style="margin-top: -16px; background-color: #1F2363;">
+        <i class="fas fa-eye"></i> Voir détails
+    </a>
+</div>
+
+
+
+
+
+                           
+                        
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+    <div class="container-pagination">
+        {{ knp_pagination_render(response) }}
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+
+
+$(document).ready(function() {
+    $('#searchInput').on('input', function() {
+        var query = $(this).val().toLowerCase();
+        $('.ev-card').each(function() {
+            var nom = $(this).data('nom').toLowerCase();
+            if (nom.includes(query)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
+    $('.view-mode').click(function() {
+        var mode = $(this).data('mode');
+        $('.ev-card').removeClass('col-md-4 col-md-6');
+        if (mode === 'byThree') {
+            $('.ev-card').addClass('col-md-4');
+        } else if (mode === 'bySix') {
+            $('.ev-card').addClass('col-md-6');
+        }
+    });
+
+}); 
+
+function likeEvent(eventId) {
+    // Envoyer une requête AJAX pour incrémenter les likes pour l'événement avec l'ID eventId
+    $.ajax({
+        url: '/likeEvent/' + eventId,
+        type: 'GET',
+        success: function(data) {
+            // Mettre à jour le nombre de likes affiché sur la page
+            $('#likesCount' + eventId).text(data.likes);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+}
+
+
+</script>
+
+{% endblock %}

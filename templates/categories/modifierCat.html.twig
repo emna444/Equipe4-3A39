@@ -1,0 +1,40 @@
+
+{% extends 'back.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="text-center">modifier catégorie</h1>
+    </div>
+
+    {# Affichage des éventuelles erreurs du formulaire #}
+    {% if form_errors(f) %}
+        <div class="alert alert-danger">
+            {{ form_errors(f) }}
+        </div>
+    {% endif %}
+        
+    {# Début du formulaire #}
+    {{ form_start(f,{'attr':{'novalidate':'novalidate'}}) }}
+        
+    {# Champ "Nom" du partenaire #}
+    <div class="form-group">
+        {{ form_widget(f.name, {'attr': {'class': 'form-control' ,'placeholder': 'Nom categorie' }}) }}
+        {% for error in f.name.vars.errors %}
+        <span class="text-danger"><i class="bi bi-exclamation-triangle"></i> {{ error.message }} <br></span>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    
+    
+
+    {# Bouton de soumission du formulaire #}
+<div class="btn-container">
+    <button type="submit" class="btn btn-primary">Modifier</button>
+</div>
+    {# Fin du formulaire #}
+    {{ form_end(f) }}
+</div>
+{% endblock %}

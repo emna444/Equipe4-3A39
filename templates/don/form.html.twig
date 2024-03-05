@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<div class="container">
+        <h1 class="text-center">Ajouter un don</h1>
+    </div>
+
+  
+
+{{ form_start(f, {'attr': {'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        {{ form_label(f.title) }}
+                        {{ form_widget(f.title, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error-message">
+                            {{ form_errors(f.title) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<br>
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    {{ form_label(f.adresse) }}
+                    {{ form_widget(f.adresse, {'attr': {'class': 'form-control'}}) }}
+                    <small>{{ form_help(f.adresse) }}</small>
+                    <div class="form-error-message">
+                        {{ form_errors(f.adresse) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<br>
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    {{ form_label(f.image, 'choose a photo') }}
+                    {{ form_widget(f.image, {'attr': {'class': 'form-control'}}) }}
+                    <small>{{ form_help(f.image) }}</small>
+                    <div class="form-error-message">
+                        {{ form_errors(f.image) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    {{ form_label(f.description) }}
+                    {{ form_widget(f.description, {'attr': {'class': 'form-control'}}) }}
+                    <small>{{ form_help(f.description) }}</small>
+                    <div class="form-error-message">
+                        {{ form_errors(f.description) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+<br>
+            <div class="card-body text-center">
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_end(f) }}
+
+{% endblock %}

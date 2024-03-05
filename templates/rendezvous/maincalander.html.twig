@@ -1,0 +1,49 @@
+{% extends 'basem.html.twig' %}
+
+{% block title %}Calendrier{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #calendrier{
+            width: 80%;
+            margin: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<a href="{{ path('admin_listeback') }}" class="btn btn-primary">
+                             <i class="bi bi-arrow-left"></i> Retourne au liste
+                    </a>
+    <div id="calendrier">
+    </div>
+{{dump(data)}}
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    window.onload = () => {
+        let calendarElt = document.querySelector("#calendrier")
+
+        let calendar = new FullCalendar.Calendar(calendarElt, {
+            initialView: 'timeGridWeek',
+            locale: 'fr',
+            timeZone: 'Europe/Paris',
+            headerToolbar: {
+                start: 'prev,next today',
+                center: 'title',
+                end: 'dayGridMonth,timeGridWeek'
+            },
+              events: {{ data|raw }}, 
+ eventClick: function(info) {
+   var eventId=info.event.id;
+   window.location.href="/admin/"+eventId+"/edit";
+  },
+        
+            
+        })
+               calendar.render()
+    }
+</script>
+{% endblock %}

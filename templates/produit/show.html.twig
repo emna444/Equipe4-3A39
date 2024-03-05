@@ -1,0 +1,342 @@
+{% extends 'base.html.twig' %}
+  {% block css%}
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Roboto:wght@500;700;900&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <style>
+       .form-error-message {
+    color: red;
+    font-size: 14px;
+
+}
+.custom-input {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.custom-input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+    .form-error-message {
+    color: red;
+    font-size: 14px;
+}.product-img {
+    width: 100%;
+    height: 300px; /* Vous pouvez ajuster cette valeur selon vos besoins */
+    object-fit: cover; /* Assure que l'image couvre complètement le conteneur tout en conservant ses proportions */
+}
+.fa-star {
+    color: #cccccc; /* Couleur de base des étoiles non sélectionnées */
+}
+
+.checked {
+    color: orange; /* Couleur des étoiles sélectionnées */
+}
+
+/* CSS pour styliser les cartes d'avis */
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 16px;
+}
+.band-passante {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    padding: 20px;
+    width: 100%; /* Largeur de la bande passante */
+    font-size: 18px;
+    font-family: 'Helvetica Neue', sans-serif;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+    animation: bande-passante 5s linear; /* Durée de l'animation ajustée à 5 secondes */
+}
+.band-passante.hidden {
+    display: none; /* Masquer la bande passante */
+}
+@keyframes bande-passante {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+.star-rating {
+    font-size: 24px;
+    color: #cccccc; /* Couleur de base des étoiles */
+}
+
+.star-rating .fa-star {
+    cursor: pointer;
+}
+
+.star-rating .fa-star.checked,
+.star-rating .fa-star.hover {
+    color: orange; /* Couleur des étoiles sélectionnées et survolées */
+}
+.product-card .card-img-top {
+    object-fit: contain; /* Ajuste la taille de l'image tout en conservant ses proportions */
+    max-width: 100%; /* Assure que l'image ne dépasse pas la largeur de son conteneur */
+    max-height: 350px; /* Ajustez la hauteur maximale selon vos besoins */
+    margin: 0 auto; /* Centre l'image horizontalement */
+}
+.custom-select-wrapper {
+    position: relative;
+}
+
+.custom-select-wrapper .custom-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 32px; /* Ajoutez de l'espace pour l'icône */
+    background-color: #f8f9fa; /* Couleur de fond */
+    border: 1px solid #ced4da; /* Bordure */
+    border-radius: 5px; /* Coins arrondis */
+}
+
+.select-arrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.btn-primary {
+    background-color: #007bff; /* Couleur de fond */
+    border-color: #007bff; /* Couleur de la bordure */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Couleur de fond au survol */
+    border-color: #0056b3; /* Couleur de la bordure au survol */
+}
+/* Container de la pagination */
+.container-pagination {
+    margin-top: 20px;
+}
+
+/* Liste des pages */
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+/* Éléments de la pagination */
+.pagination li {
+    list-style: none;
+    margin: 0 5px;
+}
+
+/* Lien de la page active */
+.pagination .active a {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    cursor: default;
+}
+
+/* Liens de pagination */
+.pagination a {
+    color: #007bff;
+    text-decoration: none;
+    border: 1px solid #007bff;
+    padding: 5px 10px;
+}
+
+/* Lien précédent et suivant */
+.pagination .prev,
+.pagination .next {
+    font-weight: bold;
+}
+
+
+</style>
+{% endblock %}
+
+{% block body %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
+        <!-- Votre code pour le navbar ici -->
+    </nav>
+    <!-- Fin du Navbar -->
+
+    <!-- Contenu principal -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="zoom-on-hover" style="display: flex; justify-content: center; align-items: center; height: 300px;">
+                            <img class="card-img-top product-img" style="width: auto; height: 100%;" src="{{ asset('uploads/' ~ p.ImageName) }}" alt="{{ p.nom }}">
+                        </div>
+                        <div class="text-center mt-3">
+                            <h5 class="card-title">{{ p.nom }}</h5>
+                            <p class="card-text">{{ p.prix }} DT</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Afficher les avis associés à ce produit -->
+    <div class="container mt-5">
+        <div class="row">
+            {% if avisProduit is empty %}
+                <div class="col-md-12">
+                    <div class="alert alert-info" role="alert">
+                        Soyez le premier à donner votre avis sur ce produit !
+                    </div>
+                </div>
+            {% else %}
+                {% for avi in avisProduit %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-primary shadow rounded-lg">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ avi.user.nom }} {{ avi.user.prenom }}</h5>
+                                <p class="card-text">{{ avi.commentaire }}</p>
+                                <p class="card-text">
+                                    {% for i in 1..5 %}
+                                        {% if i <= avi.note %}
+                                            <span class="fa fa-star checked"></span>
+                                        {% else %}
+                                            <span class="fa fa-star"></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </p>
+           {# <p class="card-text">By: {{ avi.user.nom }} {{ avi.user.prenom }}</p> Displaying user's name and surname #}
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Affichage du formulaire pour soumettre un avis -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Donner votre avis</h5>
+                        {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+                            <div class="form-group">
+                                {{ form_row(form.commentaire, {'attr': {'class': 'form-control', 'id': 'commentaire', 'placeholder': 'Partagez votre avis...'}, 'label': false}) }}
+                            </div>
+                              <div class="form-error-message">
+                                {{ form_errors(form.commentaire) }}
+                            </div>
+                            <div class="form-group">
+                                <p class="mb-2">Sélectionnez votre note :</p>
+                                <div class="form-group">
+                                    {{ form_row(form.note, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+                             <div class="form-group">
+                             <p class="mb-2">                     </p>
+                                <div class="form-group">
+                                    {{ form_row(form.captcha, {'attr': {'class': 'form-control'}}) }}
+                                    {{ form_errors(form.captcha) }}
+                                 </div>
+                                </div>
+                            <div class="form-group text-center" style="margin-top: 20px;">
+                                {{ form_row(form.submit, {'attr': {'class': 'btn btn-primary btn-lg'}}) }}
+                            </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin du contenu principal -->
+
+    <!-- Intégration du script JavaScript -->
+   <style>
+    .star {
+        font-size: 1.5rem;
+    }
+    
+    .checked {
+        color: orange;
+    }
+
+    .card {
+        transition: transform 0.3s;
+        border-radius: 15px; /* Ajout d'un arrondi aux coins des cartes */
+        border: none; /* Supprimer la bordure */
+        background-color: rgba(255, 255, 255, 0.9); /* Couleur de fond presque transparente */
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Ajout d'une ombre */
+        margin-bottom: 20px; /* Ajout d'un espace entre les cartes */
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Augmentation de l'ombre au survol */
+    }
+
+    .card-title {
+        font-size: 1.25rem; /* Taille de la police du titre de la carte */
+        color: #333; /* Couleur du texte du titre */
+    }
+
+    .card-text {
+        color: #666; /* Couleur du texte du contenu de la carte */
+    }
+
+    .form-control {
+        border-radius: 20px;
+    }
+</style>
+
+{% endblock %}

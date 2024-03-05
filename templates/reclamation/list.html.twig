@@ -1,0 +1,117 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}
+    <center>Liste des Réclamations</center> 
+{% endblock %}
+
+{% block css %}
+<!-- jQuery -->
+<link href="https://cdn.datatables.net/v/bs/jq-3.7.0/dt-2.0.1/datatables.min.css" rel="stylesheet">
+<style>
+    .description-column, .commentaires-column {
+        max-width: 300px; /* ajustez la largeur maximale selon vos besoins */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+  /* Style personnalisé pour le champ de filtrage */
+#type {
+    background-color: rgba(0, 0, 0, 0.1); /* Couleur de fond transparente */
+    border: none; /* Supprime les bordures */
+    padding: 10px; /* Ajoute un peu de marge intérieure */
+    border-radius: 5px; /* Ajoute un léger arrondi aux coins */
+    font-size: 16px; /* Taille de police */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère pour un effet de profondeur */
+}
+
+/* Style personnalisé pour le bouton de filtrage */
+button[type="submit"] {
+    background-color: #4CAF50; /* Couleur de fond verte */
+    color: white; /* Texte en blanc */
+    border: none; /* Supprime les bordures */
+    padding: 12px 20px; /* Ajoute un peu de marge intérieure */
+    border-radius: 5px; /* Ajoute un léger arrondi aux coins */
+    font-size: 16px; /* Taille de police */
+    cursor: pointer; /* Curseur de souris en pointer */
+    transition: background-color 0.3s ease; /* Ajoute une transition douce lors du survol */
+}
+
+/* Effet de survol pour le bouton */
+button[type="submit"]:hover {
+    background-color: #45a049; /* Couleur de fond légèrement plus foncée au survol */
+}
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+    <h1>Liste des Réclamations</h1>
+
+    <form action="{{ path('admin_reclamation_list') }}" method="get">
+        <label for="type">Filtrer par type :</label>
+        <select name="type" id="type">
+            <option value="">Tous</option>
+            <option value="negative">Negative</option>
+            <option value="positive">Positive</option>
+            <option value="neutre">Neutre</option>
+
+        </select>
+        <button type="submit">Filtrer</button>
+    </form>
+    
+    <table class="table" id="example">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Type</th>
+                <th scope="col">Priorité</th>
+                <th scope="col">Commentaires</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reclamation in reclamations %}
+                <tr>
+                    <th scope="row">{{ reclamation.id }}</th>
+                    <td>{{ reclamation.date|date('Y-m-d') }}</td>
+                    <td class="description-column">
+                        {% for paragraph in reclamation.description|split("\n") %}
+                            {{ paragraph }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>{{ reclamation.type }}</td>
+                    <td>{{ reclamation.priorite }}</td>
+                    <td class="commentaires-column">
+                        {% for paragraph in reclamation.commentaires|split("\n") %}
+                            {{ paragraph }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+            <a href="{{ path('admin_back_reclamation_edit', {'id': reclamation.id}) }}" class="btn btn-primary">
+                            <i class="bi bi-pencil-square animate__animated animate__heartBeat"></i>
+                        </a>
+                        <a href="{{ path('admin_reclamation_delete', {'id': reclamation.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation?')">
+                            <i class="bi bi-trash animate__animated animate__bounce"></i>
+                        </a>
+                        <a href="{{ path('admin_download_reclamation_pdf', {'id': reclamation.id}) }}" class="btn btn-success">
+                            <i class="bi bi-file-pdf animate__animated animate__flash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  {% endblock %}
+    {% block js %}
+    <script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+     </script>
+    <script src="https://cdn.datatables.net/v/bs/jq-3.7.0/dt-2.0.1/datatables.min.js"></script>
+   
+{% endblock %}
