@@ -15,21 +15,33 @@
         white-space: nowrap;
     }
 
-    /* Style personnalisé pour le champ de filtrage */
-    #type {
-        background-color: rgba(0, 0, 0, 0.1); /* Couleur de fond transparente */
-        border: none; /* Supprime les bordures */
-        padding: 5px; /* Ajoute un peu de marge intérieure */
-    }
+  /* Style personnalisé pour le champ de filtrage */
+#type {
+    background-color: rgba(0, 0, 0, 0.1); /* Couleur de fond transparente */
+    border: none; /* Supprime les bordures */
+    padding: 10px; /* Ajoute un peu de marge intérieure */
+    border-radius: 5px; /* Ajoute un léger arrondi aux coins */
+    font-size: 16px; /* Taille de police */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère pour un effet de profondeur */
+}
 
-    /* Style personnalisé pour le bouton de filtrage */
-    button[type="submit"] {
-        background-color: blue; /* Couleur de fond bleue */
-        color: white; /* Texte en blanc */
-        border: none; /* Supprime les bordures */
-        padding: 8px 15px; /* Ajoute un peu de marge intérieure */
-        cursor: pointer; /* Curseur de souris en pointer */
-    }
+/* Style personnalisé pour le bouton de filtrage */
+button[type="submit"] {
+    background-color: #4CAF50; /* Couleur de fond verte */
+    color: white; /* Texte en blanc */
+    border: none; /* Supprime les bordures */
+    padding: 12px 20px; /* Ajoute un peu de marge intérieure */
+    border-radius: 5px; /* Ajoute un léger arrondi aux coins */
+    font-size: 16px; /* Taille de police */
+    cursor: pointer; /* Curseur de souris en pointer */
+    transition: background-color 0.3s ease; /* Ajoute une transition douce lors du survol */
+}
+
+/* Effet de survol pour le bouton */
+button[type="submit"]:hover {
+    background-color: #45a049; /* Couleur de fond légèrement plus foncée au survol */
+}
+
 </style>
 <script src="https://cdn.datatables.net/v/bs/jq-3.7.0/dt-2.0.1/datatables.min.js"></script>
 {% endblock %}
